@@ -1,0 +1,14 @@
+{
+  "name": "devx-nexus",
+  "version": "1.0.0",
+  "description": "DevX Nexus — AI supermarket concierge (customer app) + store operations platform (CRM) with real-time sync",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": { "node": ">=18" },
+  "dependencies": {
+    "express": "^4.19.2",
+    "socket.io": "^4.7.5"
+  }
+}

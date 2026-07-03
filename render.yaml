@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: devx-nexus
+    runtime: node
+    plan: free
+    buildCommand: npm install
+    startCommand: node server.js
+    envVars:
+      - key: ADMIN_PIN
+        value: "1234"   # change this before going live

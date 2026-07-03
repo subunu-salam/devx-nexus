@@ -1,0 +1,1032 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DevX Nexus — Store Operations Platform</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --G:#3DBB6A;--GD:#27954E;--GX:#1A7038;--GL:rgba(61,187,106,.1);--GM:rgba(61,187,106,.2);
+  --BK:#111111;--SB:#0D0F12;--SB2:#15181D;
+  --bg:#F2F4F7;--card:#FFFFFF;--bdr:#E5E8ED;--bdr2:#D2D7DF;
+  --tx:#111318;--tx2:#4A5060;--tx3:#8B93A5;
+  --blue:#3B82F6;--amber:#F59E0B;--violet:#8B5CF6;--red:#E53935;--gold:#E8A020;
+  --r10:10px;--r14:14px;--r18:18px;--pill:999px;
+  --sh:0 1px 3px rgba(16,24,40,.06),0 1px 2px rgba(16,24,40,.04);
+  --sh2:0 12px 32px rgba(16,24,40,.14);
+}
+html,body{height:100%}
+body{font-family:'Montserrat',system-ui,sans-serif;background:var(--bg);color:var(--tx);display:flex;overflow:hidden;-webkit-font-smoothing:antialiased}
+::-webkit-scrollbar{width:9px;height:9px}
+::-webkit-scrollbar-thumb{background:var(--bdr2);border-radius:5px}
+::-webkit-scrollbar-track{background:transparent}
+button{font-family:inherit;cursor:pointer}
+input,select,textarea{font-family:inherit}
+
+/* ═══ SIDEBAR ═══ */
+.side{width:236px;background:var(--SB);display:flex;flex-direction:column;flex-shrink:0;height:100vh}
+.side-logo{display:flex;align-items:center;gap:10px;padding:20px 18px 16px;border-bottom:1px solid rgba(255,255,255,.07)}
+.side-logo svg{width:30px;height:30px;flex-shrink:0}
+.sl-name{font-size:15px;font-weight:900;color:#fff;letter-spacing:-.02em}
+.sl-name span{color:var(--G)}
+.sl-sub{font-size:8.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.38);margin-top:1px}
+.side-nav{flex:1;padding:14px 12px;display:flex;flex-direction:column;gap:3px;overflow-y:auto}
+.nav-sec{font-size:8.5px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.28);padding:12px 10px 6px}
+.nav-btn{display:flex;align-items:center;gap:11px;padding:10px 12px;border:none;background:none;border-radius:var(--r10);color:rgba(255,255,255,.62);font-size:12.5px;font-weight:600;width:100%;text-align:left;transition:.15s;position:relative}
+.nav-btn:hover{background:rgba(255,255,255,.05);color:#fff}
+.nav-btn.on{background:var(--GD);color:#fff;font-weight:700}
+.nav-btn svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+.nav-badge{margin-left:auto;min-width:18px;height:18px;border-radius:9px;background:var(--red);color:#fff;font-size:9.5px;font-weight:800;display:none;align-items:center;justify-content:center;padding:0 5px}
+.nav-badge.visible{display:flex}
+.side-foot{padding:14px;border-top:1px solid rgba(255,255,255,.07)}
+.branch-card{background:var(--SB2);border:1px solid rgba(255,255,255,.08);border-radius:var(--r14);padding:12px}
+.bc-name{font-size:11px;font-weight:800;color:#fff}
+.bc-sub{font-size:9px;color:rgba(255,255,255,.4);font-weight:600;margin-top:2px}
+.bc-live{display:flex;align-items:center;gap:6px;margin-top:8px;font-size:9px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:#7CFFA8}
+.bc-dot{width:7px;height:7px;border-radius:50%;background:#7CFFA8;animation:blink 1.4s infinite}
+@keyframes blink{50%{opacity:.3}}
+
+/* ═══ MAIN ═══ */
+.main{flex:1;display:flex;flex-direction:column;height:100vh;min-width:0}
+.topbar{height:62px;background:var(--card);border-bottom:1px solid var(--bdr);display:flex;align-items:center;gap:16px;padding:0 22px;flex-shrink:0}
+.tb-title{font-size:16px;font-weight:800;letter-spacing:-.02em}
+.tb-sub{font-size:10px;color:var(--tx3);font-weight:600;margin-top:1px}
+.tb-search{margin-left:auto;display:flex;align-items:center;gap:8px;background:var(--bg);border:1px solid var(--bdr);border-radius:var(--pill);padding:8px 14px;width:250px}
+.tb-search svg{width:14px;height:14px;stroke:var(--tx3);fill:none;stroke-width:2;stroke-linecap:round}
+.tb-search input{border:none;background:none;outline:none;font-size:12px;font-weight:500;width:100%;color:var(--tx)}
+.tb-sync{display:flex;align-items:center;gap:7px;font-size:10px;font-weight:800;color:var(--GD);background:var(--GL);padding:7px 13px;border-radius:var(--pill);letter-spacing:.03em}
+.tb-clock{font-size:11.5px;font-weight:700;color:var(--tx2);font-variant-numeric:tabular-nums}
+.content{flex:1;overflow-y:auto;padding:22px;min-width:0}
+.view{display:none}
+.view.on{display:block;animation:vIn .2s ease}
+@keyframes vIn{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+
+/* ═══ KPI ═══ */
+.kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px;margin-bottom:18px}
+.kpi{background:var(--card);border:1px solid var(--bdr);border-radius:var(--r18);padding:16px;box-shadow:var(--sh);position:relative;overflow:hidden}
+.kpi.hero{background:linear-gradient(135deg,var(--GX),var(--GD));border:none}
+.kpi.hero .kpi-l,.kpi.hero .kpi-d{color:rgba(255,255,255,.75)}
+.kpi.hero .kpi-v{color:#fff}
+.kpi-l{font-size:9.5px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--tx3)}
+.kpi-v{font-size:24px;font-weight:900;letter-spacing:-.04em;margin-top:5px;color:var(--tx)}
+.kpi-d{font-size:10px;font-weight:600;color:var(--tx3);margin-top:3px}
+.kpi-d b{color:var(--GD)}
+
+/* ═══ CARDS / GRID ═══ */
+.grid-2{display:grid;grid-template-columns:1.7fr 1fr;gap:14px;margin-bottom:14px}
+.grid-2b{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
+@media(max-width:1100px){.grid-2,.grid-2b{grid-template-columns:1fr}}
+.card{background:var(--card);border:1px solid var(--bdr);border-radius:var(--r18);box-shadow:var(--sh);overflow:hidden}
+.card-hd{display:flex;align-items:center;justify-content:space-between;padding:15px 17px;border-bottom:1px solid var(--bdr)}
+.card-t{font-size:13px;font-weight:800;letter-spacing:-.01em}
+.card-a{font-size:10.5px;font-weight:700;color:var(--GD);background:none;border:none}
+.card-bd{padding:15px 17px}
+
+/* ═══ TABLE ═══ */
+table{width:100%;border-collapse:collapse}
+th{font-size:9px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--tx3);text-align:left;padding:11px 14px;border-bottom:1px solid var(--bdr);background:var(--bg)}
+td{font-size:12px;font-weight:600;color:var(--tx2);padding:12px 14px;border-bottom:1px solid var(--bdr);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+tbody tr{transition:.12s}
+tbody tr.click{cursor:pointer}
+tbody tr.click:hover{background:var(--GL)}
+.td-main{font-weight:800;color:var(--tx);font-size:12.5px}
+.td-sub{font-size:10px;color:var(--tx3);font-weight:600;margin-top:1px}
+.pimg{width:36px;height:36px;border-radius:9px;object-fit:cover;border:1px solid var(--bdr)}
+.st-pill{display:inline-flex;align-items:center;gap:5px;font-size:9px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;padding:4px 10px;border-radius:var(--pill);color:#fff;white-space:nowrap}
+.mode-tag{display:inline-flex;align-items:center;gap:5px;font-size:10px;font-weight:700;color:var(--tx2)}
+.mode-tag svg{width:13px;height:13px;stroke:var(--tx3);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+/* ═══ CHIPS / BUTTONS ═══ */
+.chips{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:14px}
+.chip{padding:7px 15px;border-radius:var(--pill);border:1px solid var(--bdr2);background:var(--card);font-size:11px;font-weight:700;color:var(--tx2);transition:.15s}
+.chip.on{background:var(--BK);color:#fff;border-color:var(--BK)}
+.btn{display:inline-flex;align-items:center;gap:7px;padding:9px 16px;border-radius:var(--r10);border:none;font-size:11.5px;font-weight:800;transition:.15s}
+.btn svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.btn.grn{background:var(--GD);color:#fff}
+.btn.grn:hover{background:var(--GX)}
+.btn.dark{background:var(--BK);color:#fff}
+.btn.ghost{background:var(--card);color:var(--tx);border:1px solid var(--bdr2)}
+.btn.danger{background:rgba(229,57,53,.09);color:var(--red)}
+.btn.sm{padding:6px 12px;font-size:10.5px;border-radius:8px}
+.btn:disabled{opacity:.5;cursor:default}
+
+/* ═══ INPUTS ═══ */
+.fld{margin-bottom:12px}
+.lbl{display:block;font-size:9.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--tx3);margin-bottom:6px}
+.inp,.sel{width:100%;padding:10px 13px;border:1.5px solid var(--bdr2);border-radius:var(--r10);font-size:12.5px;font-weight:600;color:var(--tx);background:var(--card);outline:none;transition:.15s}
+.inp:focus,.sel:focus{border-color:var(--G)}
+.inp-mini{width:76px;padding:6px 9px;border:1.5px solid var(--bdr2);border-radius:8px;font-size:12px;font-weight:700;color:var(--tx);outline:none;background:var(--card)}
+.inp-mini:focus{border-color:var(--G)}
+
+/* ═══ DRAWER ═══ */
+.drawer-ov{position:fixed;inset:0;background:rgba(13,15,18,.45);z-index:300;opacity:0;pointer-events:none;transition:.25s}
+.drawer-ov.on{opacity:1;pointer-events:auto}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:400px;max-width:94vw;background:var(--card);z-index:310;transform:translateX(105%);transition:transform .3s cubic-bezier(.32,.72,.33,1);display:flex;flex-direction:column;box-shadow:var(--sh2)}
+.drawer.on{transform:none}
+.dw-hd{display:flex;align-items:center;justify-content:space-between;padding:17px 18px;border-bottom:1px solid var(--bdr)}
+.dw-t{font-size:15px;font-weight:900;letter-spacing:.02em}
+.dw-x{width:30px;height:30px;border-radius:9px;border:1px solid var(--bdr2);background:var(--card);font-size:13px;color:var(--tx2)}
+.dw-bd{flex:1;overflow-y:auto;padding:16px 18px}
+.dw-ft{padding:14px 18px;border-top:1px solid var(--bdr);display:flex;gap:9px}
+.dw-sec{font-size:9px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--tx3);margin:16px 0 8px}
+.dw-sec:first-child{margin-top:0}
+.dw-kv{display:flex;justify-content:space-between;font-size:12px;font-weight:600;color:var(--tx2);padding:5px 0}
+.dw-kv b{color:var(--tx);font-weight:700;text-align:right}
+.dw-item{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px dashed var(--bdr)}
+.dw-item:last-child{border-bottom:none}
+.dw-iname{font-size:12px;font-weight:700;color:var(--tx)}
+.dw-iloc{font-size:9.5px;color:var(--GD);font-weight:700;margin-top:1px}
+.dw-iprice{margin-left:auto;font-size:12px;font-weight:800;color:var(--tx);white-space:nowrap}
+.tl{position:relative;padding-left:20px}
+.tl::before{content:'';position:absolute;left:5px;top:6px;bottom:6px;width:2px;background:var(--bdr)}
+.tl-item{position:relative;padding:6px 0}
+.tl-item::before{content:'';position:absolute;left:-19px;top:11px;width:10px;height:10px;border-radius:50%;background:var(--GD);border:2px solid var(--card);box-shadow:0 0 0 2px var(--GD)}
+.tl-t{font-size:11.5px;font-weight:800;color:var(--tx)}
+.tl-d{font-size:9.5px;color:var(--tx3);font-weight:600}
+
+/* ═══ MODAL ═══ */
+.modal-ov{position:fixed;inset:0;background:rgba(13,15,18,.5);z-index:400;display:none;align-items:center;justify-content:center;padding:20px}
+.modal-ov.on{display:flex}
+.modal{background:var(--card);border-radius:var(--r18);width:440px;max-width:100%;max-height:88vh;overflow-y:auto;box-shadow:var(--sh2)}
+.modal-hd{display:flex;align-items:center;justify-content:space-between;padding:17px 20px;border-bottom:1px solid var(--bdr)}
+.modal-bd{padding:18px 20px}
+
+/* ═══ SCAN ═══ */
+.scan-wrap{max-width:560px;margin:0 auto}
+.scan-hero{background:var(--BK);border-radius:var(--r18);padding:28px;text-align:center;color:#fff;margin-bottom:16px;position:relative;overflow:hidden}
+.scan-hero::after{content:'';position:absolute;left:8%;right:8%;height:2px;background:linear-gradient(90deg,transparent,var(--G),transparent);animation:scanline 2.4s ease-in-out infinite;top:20%}
+@keyframes scanline{0%,100%{top:18%}50%{top:78%}}
+.scan-ic{width:54px;height:54px;border-radius:16px;background:rgba(61,187,106,.15);display:flex;align-items:center;justify-content:center;margin:0 auto 12px}
+.scan-ic svg{width:26px;height:26px;stroke:var(--G);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.scan-t{font-size:17px;font-weight:900;letter-spacing:-.02em}
+.scan-s{font-size:11px;color:rgba(255,255,255,.55);font-weight:500;margin-top:5px;line-height:1.6}
+.scan-inp{width:100%;padding:15px 18px;border-radius:var(--r14);border:2px solid var(--bdr2);font-size:15px;font-weight:800;letter-spacing:.1em;text-align:center;outline:none;text-transform:uppercase}
+.scan-inp:focus{border-color:var(--G)}
+.scan-result{margin-top:16px}
+.verify-flash{border:2px solid var(--GD);border-radius:var(--r18);animation:vf .5s ease}
+@keyframes vf{0%{box-shadow:0 0 0 0 var(--GM)}70%{box-shadow:0 0 0 14px transparent}}
+
+/* ═══ ACTIVITY ═══ */
+.act-item{display:flex;gap:11px;padding:10px 0;border-bottom:1px dashed var(--bdr)}
+.act-item:last-child{border-bottom:none}
+.act-dot{width:28px;height:28px;border-radius:9px;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:var(--GL)}
+.act-dot svg{width:14px;height:14px;stroke:var(--GD);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.act-dot.offer{background:rgba(232,160,32,.13)}.act-dot.offer svg{stroke:var(--gold)}
+.act-dot.stock{background:rgba(59,130,246,.11)}.act-dot.stock svg{stroke:var(--blue)}
+.act-m{font-size:11.5px;font-weight:600;color:var(--tx2);line-height:1.45}
+.act-t{font-size:9px;color:var(--tx3);font-weight:700;margin-top:2px}
+
+/* ═══ TOAST ═══ */
+.toast{position:fixed;bottom:22px;right:22px;background:var(--BK);color:#fff;padding:13px 18px;border-radius:var(--r14);font-size:12px;font-weight:700;z-index:600;display:flex;align-items:center;gap:10px;transform:translateY(140%);transition:.3s cubic-bezier(.32,.72,.33,1);box-shadow:var(--sh2);max-width:340px}
+.toast.on{transform:none}
+.toast .t-ic{width:26px;height:26px;border-radius:8px;background:var(--GD);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.toast .t-ic svg{width:13px;height:13px;stroke:#fff;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+
+/* ═══ MISC ═══ */
+.low-row{background:rgba(245,158,11,.06)}
+.out-row{background:rgba(229,57,53,.06)}
+.stock-tag{font-size:9px;font-weight:800;padding:3px 8px;border-radius:var(--pill)}
+.stock-ok{background:var(--GL);color:var(--GD)}
+.stock-low{background:rgba(245,158,11,.14);color:#B45309}
+.stock-out{background:rgba(229,57,53,.12);color:var(--red)}
+.offer-pill{background:rgba(232,160,32,.13);color:#92600A;font-size:9px;font-weight:800;padding:3px 8px;border-radius:var(--pill)}
+.empty{text-align:center;padding:38px;color:var(--tx3);font-size:12px;font-weight:500}
+.bars{display:flex;align-items:flex-end;gap:10px;height:170px;padding:6px 4px 0}
+.bar-col{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;height:100%;justify-content:flex-end}
+.bar{width:100%;max-width:38px;border-radius:7px 7px 3px 3px;background:linear-gradient(180deg,var(--G),var(--GD));min-height:3px;position:relative;transition:.3s}
+.bar:hover{filter:brightness(1.08)}
+.bar-v{font-size:9px;font-weight:800;color:var(--tx2);white-space:nowrap}
+.bar-l{font-size:8.5px;font-weight:700;color:var(--tx3);text-transform:uppercase}
+.donut-wrap{display:flex;align-items:center;gap:18px;justify-content:center;padding:8px 0}
+.kb-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+@media(max-width:1100px){.kb-grid{grid-template-columns:1fr}}
+.kb-col{background:var(--card);border:1px solid var(--bdr);border-radius:var(--r18);box-shadow:var(--sh);overflow:hidden;min-height:300px}
+.kb-hd{display:flex;align-items:center;gap:8px;padding:13px 15px;border-bottom:1px solid var(--bdr);font-size:12px;font-weight:800}
+.kb-n{margin-left:auto;min-width:22px;height:22px;border-radius:11px;background:var(--bg);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;color:var(--tx2);padding:0 7px}
+.kb-bd{padding:12px;display:flex;flex-direction:column;gap:10px}
+.kb-card{background:var(--bg);border:1px solid var(--bdr);border-radius:var(--r14);padding:12px;cursor:pointer}
+.kb-id{font-size:12.5px;font-weight:900;letter-spacing:.04em}
+.kb-meta{font-size:10px;color:var(--tx3);font-weight:600;margin:3px 0 8px}
+.kb-items{font-size:10.5px;color:var(--tx2);font-weight:600;line-height:1.5;margin-bottom:9px}
+.dn-leg{display:flex;flex-direction:column;gap:9px}
+.dn-li{display:flex;align-items:center;gap:8px;font-size:11px;font-weight:700;color:var(--tx2)}
+.dn-sw{width:11px;height:11px;border-radius:4px}
+</style>
+</head>
+<body>
+<!-- SIDEBAR -->
+<aside class="side">
+  <div class="side-logo">
+    <img src="logo.png" alt="" style="width:30px;height:30px;object-fit:contain;flex-shrink:0" onerror="this.remove()" onload="this.nextElementSibling.style.display='none'"><svg viewBox="0 0 34 34" fill="none">
+      <path d="M5 10L13 17L5 24" stroke="white" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M16 11L27 11L21 18L27 25L16 25" stroke="#3DBB6A" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <div>
+      <div class="sl-name">DEV<span>X</span> NEXUS</div>
+      <div class="sl-sub">Store Operations</div>
+    </div>
+  </div>
+  <nav class="side-nav">
+    <div class="nav-sec">Overview</div>
+    <button class="nav-btn on" id="nav-dash" onclick="go('dash')">
+      <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg>Dashboard
+    </button>
+    <div class="nav-sec">Fulfilment</div>
+    <button class="nav-btn" id="nav-orders" onclick="go('orders')">
+      <svg viewBox="0 0 24 24"><path d="M21 8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>Orders
+      <span class="nav-badge" id="ordBadge"></span>
+    </button>
+    <button class="nav-btn" id="nav-pkc" onclick="go('pkc')">
+      <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Pickup Counter
+    </button>
+    <button class="nav-btn" id="nav-scan" onclick="go('scan')">
+      <svg viewBox="0 0 24 24"><path d="M3 7V5a2 2 0 012-2h2"/><path d="M17 3h2a2 2 0 012 2v2"/><path d="M21 17v2a2 2 0 01-2 2h-2"/><path d="M7 21H5a2 2 0 01-2-2v-2"/><line x1="7" y1="12" x2="17" y2="12"/></svg>Pickup Scanner
+    </button>
+    <div class="nav-sec">Merchandising</div>
+    <button class="nav-btn" id="nav-inv" onclick="go('inv')">
+      <svg viewBox="0 0 24 24"><path d="M20 7l-8-4-8 4v10l8 4 8-4z"/><polyline points="4 7 12 11 20 7"/><line x1="12" y1="11" x2="12" y2="21"/></svg>Inventory
+      <span class="nav-badge" id="invBadge" style="background:var(--amber)"></span>
+    </button>
+    <button class="nav-btn" id="nav-offers" onclick="go('offers')">
+      <svg viewBox="0 0 24 24"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>Offers &amp; Promotions
+    </button>
+    <div class="nav-sec">Relationships</div>
+    <button class="nav-btn" id="nav-cust" onclick="go('cust')">
+      <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>Customers
+    </button>
+    <button class="nav-btn" id="nav-act" onclick="go('act')">
+      <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>Activity Feed
+    </button>
+  </nav>
+  <div class="side-foot">
+    <div class="branch-card">
+      <div class="bc-name">Madina Supermarket</div>
+      <div class="bc-sub">Deira — Branch 3 · Dubai, UAE</div>
+      <div class="bc-live"><span class="bc-dot"></span>Storefront connected</div>
+    </div>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<div class="main">
+  <div class="topbar">
+    <div>
+      <div class="tb-title" id="tbTitle">Dashboard</div>
+      <div class="tb-sub" id="tbSub">Live overview of your store</div>
+    </div>
+    <div class="tb-search">
+      <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input id="gSearch" placeholder="Search order ID or customer…" oninput="globalSearch(this.value)">
+    </div>
+    <div class="tb-sync"><span class="bc-dot"></span>LIVE SYNC</div>
+    <div class="tb-clock" id="tbClock"></div>
+  </div>
+
+  <div class="content">
+    <!-- DASHBOARD -->
+    <div class="view on" id="view-dash">
+      <div class="kpi-grid" id="kpiGrid"></div>
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-hd"><span class="card-t">Revenue — last 7 days</span><span class="card-a" id="rev7"></span></div>
+          <div class="card-bd"><div class="bars" id="revChart"></div></div>
+        </div>
+        <div class="card">
+          <div class="card-hd"><span class="card-t">Order Channels</span></div>
+          <div class="card-bd"><div class="donut-wrap" id="modeSplit"></div></div>
+        </div>
+      </div>
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-hd"><span class="card-t">Recent Orders</span><button class="card-a" onclick="go('orders')">View all →</button></div>
+          <div id="recentOrders"></div>
+        </div>
+        <div class="card">
+          <div class="card-hd"><span class="card-t">Live Activity</span></div>
+          <div class="card-bd" id="dashAct" style="max-height:330px;overflow-y:auto"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ORDERS -->
+    <div class="view" id="view-orders">
+      <div class="chips" id="ordChips"></div>
+      <div class="card"><div id="ordTable"></div></div>
+    </div>
+
+    <!-- PICKUP COUNTER -->
+    <div class="view" id="view-pkc">
+      <div class="kb-grid" id="pkcBoard"></div>
+    </div>
+
+    <!-- SCANNER -->
+    <div class="view" id="view-scan">
+      <div class="scan-wrap">
+        <div class="scan-hero">
+          <div class="scan-ic"><svg viewBox="0 0 24 24"><path d="M3 7V5a2 2 0 012-2h2"/><path d="M17 3h2a2 2 0 012 2v2"/><path d="M21 17v2a2 2 0 01-2 2h-2"/><path d="M7 21H5a2 2 0 01-2-2v-2"/><line x1="7" y1="12" x2="17" y2="12"/></svg></div>
+          <div class="scan-t">Pickup Pass Scanner</div>
+          <div class="scan-s">Point any USB / 2D barcode scanner at the customer's QR pass — it types here automatically.<br>You can also enter the Order ID manually and press Enter.</div>
+        </div>
+        <input class="scan-inp" id="scanInp" placeholder="SCAN QR OR TYPE ORDER ID (e.g. NX-0001)" onkeydown="if(event.key==='Enter')doScan()">
+        <div class="scan-result" id="scanResult"></div>
+      </div>
+    </div>
+
+    <!-- INVENTORY -->
+    <div class="view" id="view-inv">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px">
+        <div class="chips" style="margin:0" id="invChips"></div>
+        <button class="btn grn" style="margin-left:auto" onclick="openProdModal()">
+          <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Add Product
+        </button>
+      </div>
+      <div class="card"><div id="invTable"></div></div>
+    </div>
+
+    <!-- OFFERS -->
+    <div class="view" id="view-offers">
+      <div class="grid-2b">
+        <div class="card">
+          <div class="card-hd"><span class="card-t">Create Offer</span></div>
+          <div class="card-bd">
+            <div class="fld"><label class="lbl">Product</label><select class="sel" id="offProd"></select></div>
+            <div class="fld"><label class="lbl">Discount %</label><input class="inp" id="offPct" type="number" min="5" max="70" value="15"></div>
+            <div class="fld"><label class="lbl">Campaign label</label><input class="inp" id="offLbl" placeholder="e.g. Weekend Flash Sale"></div>
+            <button class="btn grn" style="width:100%;justify-content:center;padding:12px" onclick="createOffer()">
+              <svg viewBox="0 0 24 24"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/></svg>Publish Offer — pushes live to customer app
+            </button>
+            <p style="font-size:10px;color:var(--tx3);font-weight:600;margin-top:9px;line-height:1.6">Publishing updates the shared catalog instantly: the product shows the discounted price in the customer app and every customer receives a push notification.</p>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-hd"><span class="card-t">Active Offers</span></div>
+          <div id="offList"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CUSTOMERS -->
+    <div class="view" id="view-cust">
+      <div class="card"><div id="custTable"></div></div>
+    </div>
+
+    <!-- ACTIVITY -->
+    <div class="view" id="view-act">
+      <div class="card"><div class="card-bd" id="actFull"></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ORDER DRAWER -->
+<div class="drawer-ov" id="dwOv" onclick="closeDrawer()"></div>
+<div class="drawer" id="dw">
+  <div class="dw-hd"><span class="dw-t" id="dwTitle"></span><button class="dw-x" onclick="closeDrawer()">✕</button></div>
+  <div class="dw-bd" id="dwBody"></div>
+  <div class="dw-ft" id="dwFoot"></div>
+</div>
+
+<!-- ADD PRODUCT MODAL -->
+<div class="modal-ov" id="prodModal">
+  <div class="modal">
+    <div class="modal-hd"><span class="card-t">Add Product to Inventory</span><button class="dw-x" onclick="document.getElementById('prodModal').classList.remove('on')">✕</button></div>
+    <div class="modal-bd">
+      <div class="fld"><label class="lbl">Product name</label><input class="inp" id="npName" placeholder="e.g. Honey 500g"></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+        <div class="fld"><label class="lbl">Unit / size</label><input class="inp" id="npUnit" placeholder="500g"></div>
+        <div class="fld"><label class="lbl">Price (AED)</label><input class="inp" id="npPrice" type="number" min="1"></div>
+      </div>
+      <div class="fld"><label class="lbl">Category</label><select class="sel" id="npCat"></select></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+        <div class="fld"><label class="lbl">Opening stock</label><input class="inp" id="npStock" type="number" min="0" value="24"></div>
+        <div class="fld"><label class="lbl">Shelf location</label><input class="inp" id="npLoc" placeholder="Aisle 4 · Rack 2 · Shelf 3"></div>
+      </div>
+      <div class="fld"><label class="lbl">Image URL (optional)</label><input class="inp" id="npImg" placeholder="https://…"></div>
+      <button class="btn grn" style="width:100%;justify-content:center;padding:12px" onclick="addProduct()">
+        <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Add &amp; announce to customers
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"><span class="t-ic"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span><span id="toastMsg"></span></div>
+
+<script>
+/* ══════════════════════════════════════════════
+   DEVX NEXUS — STORE OPERATIONS PLATFORM
+   Shares live data with the customer app via
+   localStorage + BroadcastChannel + polling.
+══════════════════════════════════════════════ */
+const SEED=[
+  {id:1,name:'Basmati Rice',brand:'Nexus Gold',group:'rice-basmati',unit:'5kg',price:32,was:36,cat:'Rice & Grains',img:'https://images.unsplash.com/photo-1536304929831-ee1ca9d44906?w=300&h=300&fit=crop&q=80',loc:'Aisle 7 · Rack 3 · Shelf 6',deal:true},
+  {id:2,name:'Sella Rice',unit:'5kg',price:28,cat:'Rice & Grains',img:'https://images.unsplash.com/photo-1586201375761-83865001e31c?w=300&h=300&fit=crop&q=80',loc:'Aisle 7 · Rack 3 · Shelf 5'},
+  {id:3,name:'Brown Rice',unit:'2kg',price:18,cat:'Rice & Grains',img:'https://images.unsplash.com/photo-1613728913341-e3fcb5d3ad4d?w=300&h=300&fit=crop&q=80',loc:'Aisle 7 · Rack 4 · Shelf 2'},
+  {id:4,name:'Vermicelli',unit:'500g',price:5,cat:'Rice & Grains',img:'https://images.unsplash.com/photo-1555126634-323283e090fa?w=300&h=300&fit=crop&q=80',loc:'Aisle 7 · Rack 5 · Shelf 1'},
+  {id:5,name:'Chicken Whole',unit:'1kg',price:22,was:25,cat:'Fresh Meat',img:'https://images.unsplash.com/photo-1604503468506-a8da13d11bbc?w=300&h=300&fit=crop&q=80',loc:'Fresh Meat · Counter 2',deal:true},
+  {id:6,name:'Chicken Breast',unit:'500g',price:16,cat:'Fresh Meat',img:'https://images.unsplash.com/photo-1615485500704-8e990f9900f7?w=300&h=300&fit=crop&q=80',loc:'Fresh Meat · Counter 2'},
+  {id:7,name:'Lamb Shoulder',unit:'1kg',price:55,cat:'Fresh Meat',img:'https://images.unsplash.com/photo-1603048297172-c92544798d5a?w=300&h=300&fit=crop&q=80',loc:'Fresh Meat · Counter 1'},
+  {id:8,name:'Minced Beef',unit:'500g',price:24,cat:'Fresh Meat',img:'https://images.unsplash.com/photo-1558030006-450675393462?w=300&h=300&fit=crop&q=80',loc:'Fresh Meat · Counter 3'},
+  {id:9,name:'Fresh Yogurt',unit:'500g',price:8,cat:'Dairy & Chilled',img:'https://images.unsplash.com/photo-1488477181946-6428a0291777?w=300&h=300&fit=crop&q=80',loc:'Aisle 2 · Rack 1 · Shelf 4'},
+  {id:10,name:'Full Cream Milk',brand:'Nexus Dairy',group:'milk-1l',unit:'1L',price:6,cat:'Dairy & Chilled',img:'https://images.unsplash.com/photo-1550583724-b2692b85b150?w=300&h=300&fit=crop&q=80',loc:'Aisle 2 · Rack 2 · Shelf 3'},
+  {id:11,name:'Cheddar Cheese',unit:'200g',price:12,cat:'Dairy & Chilled',img:'https://images.unsplash.com/photo-1486297678162-eb2a19b0a32d?w=300&h=300&fit=crop&q=80',loc:'Aisle 2 · Rack 3 · Shelf 1'},
+  {id:12,name:'Butter',unit:'200g',price:9,cat:'Dairy & Chilled',img:'https://images.unsplash.com/photo-1589985270826-4b7bb135bc9d?w=300&h=300&fit=crop&q=80',loc:'Aisle 2 · Rack 3 · Shelf 2'},
+  {id:13,name:'Laban',unit:'1L',price:5,cat:'Dairy & Chilled',img:'https://images.unsplash.com/photo-1563636619-e9143da7973b?w=300&h=300&fit=crop&q=80',loc:'Aisle 2 · Rack 3 · Shelf 3'},
+  {id:14,name:'Eggs',unit:'30 pcs',price:14,cat:'Dairy & Chilled',img:'https://images.unsplash.com/photo-1582722872445-44dc5f7e3c8f?w=300&h=300&fit=crop&q=80',loc:'Aisle 2 · Rack 5 · Shelf 1'},
+  {id:15,name:'Onions',unit:'1kg',price:4,cat:'Fresh Produce',img:'https://images.unsplash.com/photo-1508747703725-719777637510?w=300&h=300&fit=crop&q=80',loc:'Aisle 1 · Rack 2 · Shelf 1'},
+  {id:16,name:'Tomatoes',unit:'1kg',price:5,cat:'Fresh Produce',img:'https://images.unsplash.com/photo-1546470427-227c4b0a5f80?w=300&h=300&fit=crop&q=80',loc:'Aisle 1 · Rack 1 · Shelf 2'},
+  {id:17,name:'Potatoes',unit:'1kg',price:4,cat:'Fresh Produce',img:'https://images.unsplash.com/photo-1518977676601-b53f82aba655?w=300&h=300&fit=crop&q=80',loc:'Aisle 1 · Rack 2 · Shelf 3'},
+  {id:18,name:'Cucumber',unit:'500g',price:3,cat:'Fresh Produce',img:'https://images.unsplash.com/photo-1449300079323-02e209d9d3a6?w=300&h=300&fit=crop&q=80',loc:'Aisle 1 · Rack 1 · Shelf 4'},
+  {id:19,name:'Bananas',unit:'1kg',price:6,cat:'Fresh Produce',img:'https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?w=300&h=300&fit=crop&q=80',loc:'Aisle 1 · Rack 4 · Shelf 1'},
+  {id:20,name:'Lemons',unit:'500g',price:4,cat:'Fresh Produce',img:'https://images.unsplash.com/photo-1582560475093-ba66accbc424?w=300&h=300&fit=crop&q=80',loc:'Aisle 1 · Rack 3 · Shelf 2'},
+  {id:21,name:'Biryani Masala',unit:'100g',price:6,cat:'Spices',img:'https://images.unsplash.com/photo-1596040033229-a9821ebd058d?w=300&h=300&fit=crop&q=80',loc:'Aisle 5 · Rack 4 · Shelf 3'},
+  {id:22,name:'Turmeric Powder',unit:'100g',price:4,cat:'Spices',img:'https://images.unsplash.com/photo-1615485290382-441e4d049cb5?w=300&h=300&fit=crop&q=80',loc:'Aisle 5 · Rack 4 · Shelf 2'},
+  {id:23,name:'Chili Powder',unit:'100g',price:5,cat:'Spices',img:'https://images.unsplash.com/photo-1526346698789-22fd84314424?w=300&h=300&fit=crop&q=80',loc:'Aisle 5 · Rack 4 · Shelf 1'},
+  {id:24,name:'Fried Onions',unit:'200g',price:7,cat:'Spices',img:'https://images.unsplash.com/photo-1632664025867-25e1b72e7c7b?w=300&h=300&fit=crop&q=80',loc:'Aisle 5 · Rack 2 · Shelf 2'},
+  {id:25,name:'Saffron',unit:'1g',price:12,cat:'Spices',img:'https://images.unsplash.com/photo-1599909631840-12b6deb66e8c?w=300&h=300&fit=crop&q=80',loc:'Aisle 5 · Rack 4 · Shelf 1'},
+  {id:26,name:'Garam Masala',unit:'100g',price:5,cat:'Spices',img:'https://images.unsplash.com/photo-1517244683847-7456b63c5969?w=300&h=300&fit=crop&q=80',loc:'Aisle 5 · Rack 3 · Shelf 3'},
+  {id:27,name:'Pepsi Cola',unit:'1.5L',price:6,was:8,cat:'Beverages',img:'https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=300&h=300&fit=crop&q=80',loc:'Aisle 8 · Rack 1 · Shelf 3',deal:true},
+  {id:28,name:'Mineral Water',brand:'Nexus Aqua',group:'water-12',unit:'12×500ml',price:8,cat:'Beverages',img:'https://images.unsplash.com/photo-1548839140-29a749e1cf4d?w=300&h=300&fit=crop&q=80',loc:'Aisle 8 · Rack 3 · Shelf 1'},
+  {id:29,name:'Orange Juice',unit:'1L',price:10,cat:'Beverages',img:'https://images.unsplash.com/photo-1600271886742-f049cd451bba?w=300&h=300&fit=crop&q=80',loc:'Aisle 8 · Rack 2 · Shelf 4'},
+  {id:30,name:'Green Tea',unit:'25 bags',price:12,cat:'Beverages',img:'https://images.unsplash.com/photo-1564890369478-c89ca6d9cde9?w=300&h=300&fit=crop&q=80',loc:'Aisle 8 · Rack 4 · Shelf 2'},
+  {id:31,name:'Arabic Bread',unit:'6 pcs',price:3,cat:'Bakery',img:'https://images.unsplash.com/photo-1509440159596-0249088772ff?w=300&h=300&fit=crop&q=80',loc:'Bakery · Counter 1'},
+  {id:32,name:'Samoon Bread',unit:'4 pcs',price:4,cat:'Bakery',img:'https://images.unsplash.com/photo-1549931319-a545dcf3bc7c?w=300&h=300&fit=crop&q=80',loc:'Bakery · Counter 1'},
+  {id:33,name:'Croissant',unit:'4 pcs',price:8,cat:'Bakery',img:'https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=300&h=300&fit=crop&q=80',loc:'Bakery · Counter 2'},
+  {id:34,name:'Ariel Detergent',brand:'Ariel',group:'detergent-2kg',unit:'2kg',price:28,was:34,cat:'Household',img:'https://images.unsplash.com/photo-1563453392212-326f5e854473?w=300&h=300&fit=crop&q=80',loc:'Aisle 10 · Rack 2 · Shelf 4',deal:true},
+  {id:35,name:'Fairy Dish Soap',unit:'750ml',price:9,cat:'Household',img:'https://images.unsplash.com/photo-1585771724684-38269d6639fd?w=300&h=300&fit=crop&q=80',loc:'Aisle 10 · Rack 3 · Shelf 2'},
+  {id:36,name:'Tissue Box',unit:'5 boxes',price:12,cat:'Household',img:'https://images.unsplash.com/photo-1584556812952-905ffd0c611a?w=300&h=300&fit=crop&q=80',loc:'Aisle 10 · Rack 1 · Shelf 1'},
+  {id:37,name:'Garbage Bags',unit:'30 pcs',price:8,cat:'Household',img:'https://images.unsplash.com/photo-1605600659908-0ef719419d41?w=300&h=300&fit=crop&q=80',loc:'Aisle 10 · Rack 4 · Shelf 3'},
+  {id:38,name:"Lay's Chips",unit:'165g',price:7,cat:'Snacks',img:'https://images.unsplash.com/photo-1566478989037-eec170784d0b?w=300&h=300&fit=crop&q=80',loc:'Aisle 6 · Rack 1 · Shelf 2'},
+  {id:39,name:'Oreo Cookies',unit:'176g',price:6,cat:'Snacks',img:'https://images.unsplash.com/photo-1558961363-fa8fdf82db35?w=300&h=300&fit=crop&q=80',loc:'Aisle 6 · Rack 2 · Shelf 3'},
+  {id:40,name:'Mixed Nuts',unit:'250g',price:18,cat:'Snacks',img:'https://images.unsplash.com/photo-1536816579748-4ecb3f03d72a?w=300&h=300&fit=crop&q=80',loc:'Aisle 6 · Rack 3 · Shelf 1'},
+  {id:41,name:'Sunflower Oil',brand:'Nexus Value',group:'oil-sun',unit:'1.8L',price:16,cat:'Cooking Oil',img:'https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?w=300&h=300&fit=crop&q=80',loc:'Aisle 9 · Rack 1 · Shelf 2'},
+  {id:42,name:'Olive Oil',unit:'500ml',price:22,cat:'Cooking Oil',img:'https://images.unsplash.com/photo-1543364195-bfe6e4932397?w=300&h=300&fit=crop&q=80',loc:'Aisle 9 · Rack 2 · Shelf 1'},
+  {id:43,name:'Basmati Rice',brand:'Daawat Premium',group:'rice-basmati',unit:'5kg',price:38,cat:'Rice & Grains',img:'https://images.unsplash.com/photo-1586201375761-83865001e31c?w=300&h=300&fit=crop&q=80',loc:'Aisle 7 · Rack 3 · Shelf 6'},
+  {id:44,name:'Full Cream Milk',brand:'Almarai',group:'milk-1l',unit:'1L',price:7.5,cat:'Dairy & Chilled',img:'https://images.unsplash.com/photo-1550583724-b2692b85b150?w=300&h=300&fit=crop&q=80',loc:'Aisle 2 · Rack 2 · Shelf 3'},
+  {id:45,name:'Sunflower Oil',brand:'Noor',group:'oil-sun',unit:'1.8L',price:19,cat:'Cooking Oil',img:'https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?w=300&h=300&fit=crop&q=80',loc:'Aisle 9 · Rack 1 · Shelf 2'},
+  {id:46,name:'Mineral Water',brand:'Masafi',group:'water-12',unit:'12×500ml',price:10,cat:'Beverages',img:'https://images.unsplash.com/photo-1548839140-29a749e1cf4d?w=300&h=300&fit=crop&q=80',loc:'Aisle 8 · Rack 3 · Shelf 1'},
+  {id:47,name:'Laundry Detergent',brand:'Persil',group:'detergent-2kg',unit:'2kg',price:30,cat:'Household',img:'https://images.unsplash.com/photo-1563453392212-326f5e854473?w=300&h=300&fit=crop&q=80',loc:'Aisle 10 · Rack 2 · Shelf 5'},
+];
+
+/* ─── SYNC LAYER (identical contract to the customer app) ─── */
+const NXK={cat:'devx-catalog',ord:'devx-orders',off:'devx-offers',ntf:'devx-notifs-customer',act:'devx-activity',ver:'devx-sync-ver'};
+/* Dual mode: ONLINE = REST + Socket.IO against the Nexus server (multi-device, real-time).
+              LOCAL  = localStorage demo when opened as a plain file. */
+const NX_HTTP=/^https?:$/.test(location.protocol);
+let NX_ONLINE=false;
+const CACHE={};
+let ADMIN_PIN=localStorage.getItem('devx-admin-pin')||'';
+let nxVer=localStorage.getItem(NXK.ver)||'0';
+let nxBus=null;try{nxBus=new BroadcastChannel('devx-nexus')}catch(e){}
+function nxRead(k,f){
+  if(NX_ONLINE)return CACHE[k]!=null?CACHE[k]:f;
+  try{const v=JSON.parse(localStorage.getItem(k));return v==null?f:v}catch(e){return f}
+}
+function nxSet(k,v){
+  if(NX_ONLINE){
+    CACHE[k]=v;
+    fetch('/api/admin/set',{method:'POST',headers:{'Content-Type':'application/json','x-admin-pin':ADMIN_PIN},body:JSON.stringify({key:k,value:v})}).catch(()=>{});
+    return;
+  }
+  localStorage.setItem(k,JSON.stringify(v));
+}
+function nxBump(){
+  if(NX_ONLINE)return; /* server broadcasts every admin write */
+  nxVer=String(Date.now());localStorage.setItem(NXK.ver,nxVer);
+  try{nxBus&&nxBus.postMessage({v:nxVer})}catch(e){}
+}
+function logAct(type,msg){const a=nxRead(NXK.act,[]);a.unshift({type,msg,at:new Date().toISOString()});nxSet(NXK.act,a.slice(0,120))}
+function pushCustNotif(type,title,msg,cid){const n=nxRead(NXK.ntf,[]);n.unshift({id:'n'+Date.now()+Math.random().toString(36).slice(2,6),type,title,msg,cid:cid||null,at:new Date().toISOString()});nxSet(NXK.ntf,n.slice(0,60))}
+function loadScript(src){return new Promise((ok,err)=>{const t=document.createElement('script');t.src=src;t.onload=ok;t.onerror=err;document.head.appendChild(t);setTimeout(err,4000)})}
+async function tryLogin(pin){
+  const r=await fetch('/api/state',{headers:{'x-admin-pin':pin},cache:'no-store'});
+  if(r.status===401)return null;
+  if(!r.ok)throw new Error('server');
+  return await r.json();
+}
+async function nxBoot(){
+  if(!NX_HTTP)return;
+  let state=null;
+  try{
+    while(true){
+      if(!ADMIN_PIN)ADMIN_PIN=prompt('DevX Nexus — Store Operations\n\nEnter admin PIN:')||'';
+      if(!ADMIN_PIN)continue;
+      state=await tryLogin(ADMIN_PIN);
+      if(state)break;
+      ADMIN_PIN='';
+      alert('Wrong PIN — try again.');
+    }
+  }catch(e){return}
+  localStorage.setItem('devx-admin-pin',ADMIN_PIN);
+  Object.assign(CACHE,state);
+  NX_ONLINE=true;
+  try{
+    await loadScript('/socket.io/socket.io.js');
+    const sock=io();
+    sock.on('sync',ch=>{
+      Object.keys(ch).forEach(k=>{CACHE[k]=ch[k]});
+      onRemote();
+    });
+  }catch(e){setInterval(async()=>{try{const st=await tryLogin(ADMIN_PIN);if(st){Object.assign(CACHE,st);onRemote()}}catch(e2){}},4000)}
+}
+function onRemote(){
+  const fresh=nxRead(NXK.ord,[]).filter(o=>!knownIds.has(o.id));
+  if(fresh.length){
+    fresh.forEach(o=>{knownIds.add(o.id);newOrderCount++;toast('🛒 New '+o.mode+' order '+o.id+' — '+esc(o.customer?.name||'Guest')+' — '+money(o.total));chime()});
+    syncOrdBadge();
+  }
+  renderView();
+}
+
+/* ─── STATE ─── */
+function withStock(p,i){return Object.assign({},p,{stock:p.stock!=null?p.stock:(18+((i*7)%30))})}
+let CAT=[],ORD=[];
+let curView='dash',ordFilter='all',invFilter='all',searchQ='';
+let knownIds=new Set();
+function initData(){
+  CAT=nxRead(NXK.cat,null);
+  if(!CAT||!CAT.length){CAT=SEED.map(withStock);nxSet(NXK.cat,CAT)}
+  ORD=nxRead(NXK.ord,[]);
+  knownIds=new Set(ORD.map(o=>o.id));
+}
+
+/* Demo history seeding — only when the store is brand new */
+function seedDemo(){
+if(!ORD.length){
+  const names=[['Ayesha Khan','+971 50 224 1180'],['Mohammed Rafi','+971 55 810 4471'],['Fatima Al Zarooni','+971 52 993 2204'],['Junaid Ahmed','+971 56 447 0912'],['Priya Menon','+971 54 302 8850'],['Omar Haddad','+971 50 671 3327']];
+  const seedOrders=[];
+  for(let d=6;d>=1;d--){
+    const dt=new Date();dt.setDate(dt.getDate()-d);dt.setHours(10+(d*3)%9,(d*17)%60,0,0);
+    const [nm,ph]=names[(6-d)%names.length];
+    const picks=[CAT[(d*5)%CAT.length],CAT[(d*11)%CAT.length],CAT[(d*17)%CAT.length],CAT[(d*23)%CAT.length]].filter(Boolean);
+    const items=picks.map((p,i)=>({id:p.id,name:p.name,qty:1+(d+i)%3,price:p.price,loc:p.loc,unit:p.unit}));
+    const sub=items.reduce((a,i)=>a+i.price*i.qty,0);
+    const mode=d%2?'delivery':'pickup';
+    seedOrders.push({id:'HX-'+String(900+d),seed:true,date:dt.toISOString(),mode,branch:'Madina Supermarket — Deira (Branch 3)',customer:{name:nm,phone:ph,addr:mode==='delivery'?'Al Rigga, Deira, Dubai':''},items,sub,save:0,fee:mode==='delivery'?10:0,total:sub+(mode==='delivery'?10:0),status:'done',history:[{s:'new',at:dt.toISOString()},{s:'done',at:dt.toISOString()}]});
+  }
+  ORD=seedOrders;nxSet(NXK.ord,ORD);knownIds=new Set(ORD.map(o=>o.id));
+}
+}
+
+/* ─── META ─── */
+const ST={new:{l:'New',c:'#3B82F6'},preparing:{l:'Preparing',c:'#F59E0B'},ready:{l:'Ready',c:'#8B5CF6'},out:{l:'Out for Delivery',c:'#8B5CF6'},done:{l:'Completed',c:'#27954E'},cancelled:{l:'Cancelled',c:'#E53935'}};
+const FLOW={delivery:['new','preparing','out','done'],pickup:['new','preparing','ready','done']};
+const NEXT_LBL={new:'Start Preparing',preparing_delivery:'Dispatch Rider',preparing_pickup:'Mark Ready for Pickup',out:'Mark Delivered',ready:'Mark Collected'};
+const CUST_MSG={
+  preparing:o=>['Order '+o.id+' is being prepared','Our team at '+brShort(o)+' has started packing your items.'],
+  ready:o=>['Order '+o.id+' is ready for pickup! 🛍️','Head to the Pickup Counter at '+brShort(o)+' and show your pass.'],
+  out:o=>['Order '+o.id+' is on the way 🛵','Your rider has left '+brShort(o)+'. Arriving within the hour.'],
+  done:o=>['Order '+o.id+' '+(o.mode==='pickup'?'collected':'delivered')+' ✓','Thanks for shopping with us, '+(o.customer?.name?.split(' ')[0]||'friend')+'! See you again soon.'],
+  cancelled:o=>['Order '+o.id+' was cancelled','The amount will be refunded to your original payment method within 24h.']
+};
+function brShort(o){return (o.branch||'').replace('Madina Supermarket — ','')||'the store'}
+function money(v){return 'AED '+(Math.round(v*100)/100)}
+function fmtDT(iso){return new Date(iso).toLocaleString([],{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'})}
+function timeAgo(iso){const s=Math.floor((Date.now()-new Date(iso))/1000);if(s<60)return 'Just now';if(s<3600)return Math.floor(s/60)+'m ago';if(s<86400)return Math.floor(s/3600)+'h ago';return Math.floor(s/86400)+'d ago'}
+function esc(s){return String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
+
+/* ─── NAV ─── */
+const TITLES={dash:['Dashboard','Live overview of your store'],pkc:['Pickup Counter','Dedicated queue for in-store collection'],orders:['Orders','Every order from the customer app, in real time'],scan:['Pickup Scanner','Verify customer pickup passes'],inv:['Inventory','Shared catalog — edits go live in the customer app'],offers:['Offers & Promotions','Publish deals straight to customers'],cust:['Customers','CRM — built automatically from orders'],act:['Activity Feed','Everything that happened, in order']};
+function go(v){
+  curView=v;
+  document.querySelectorAll('.view').forEach(e=>e.classList.remove('on'));
+  document.getElementById('view-'+v).classList.add('on');
+  document.querySelectorAll('.nav-btn').forEach(e=>e.classList.remove('on'));
+  document.getElementById('nav-'+v).classList.add('on');
+  document.getElementById('tbTitle').textContent=TITLES[v][0];
+  document.getElementById('tbSub').textContent=TITLES[v][1];
+  renderView();
+  if(v==='scan')setTimeout(()=>document.getElementById('scanInp').focus(),150);
+  if(v==='orders'){newOrderCount=0;syncOrdBadge()}
+}
+function renderView(){
+  reload();
+  if(curView==='dash')renderDash();
+  else if(curView==='pkc')renderPkc();
+  else if(curView==='orders')renderOrders();
+  else if(curView==='inv')renderInv();
+  else if(curView==='offers')renderOffersView();
+  else if(curView==='cust')renderCust();
+  else if(curView==='act')renderActFull();
+}
+function reload(){CAT=nxRead(NXK.cat,CAT);ORD=nxRead(NXK.ord,[])}
+
+/* ─── DASHBOARD ─── */
+function renderDash(){
+  const today=new Date().toDateString();
+  const live=ORD.filter(o=>o.status!=='cancelled');
+  const tOrders=live.filter(o=>new Date(o.date).toDateString()===today);
+  const tRev=tOrders.reduce((a,o)=>a+o.total,0);
+  const pending=ORD.filter(o=>!['done','cancelled'].includes(o.status)).length;
+  const aov=live.length?Math.round(live.reduce((a,o)=>a+o.total,0)/live.length):0;
+  const lowN=CAT.filter(p=>p.stock!=null&&p.stock<8).length;
+  const activeOff=nxRead(NXK.off,[]).filter(o=>o.active).length;
+  document.getElementById('kpiGrid').innerHTML=`
+    <div class="kpi hero"><div class="kpi-l">Today's Revenue</div><div class="kpi-v">${money(tRev)}</div><div class="kpi-d">${tOrders.length} orders today</div></div>
+    <div class="kpi"><div class="kpi-l">Pending Orders</div><div class="kpi-v">${pending}</div><div class="kpi-d">need action now</div></div>
+    <div class="kpi"><div class="kpi-l">Avg Order Value</div><div class="kpi-v">${money(aov)}</div><div class="kpi-d">across ${live.length} orders</div></div>
+    <div class="kpi"><div class="kpi-l">Low Stock</div><div class="kpi-v">${lowN}</div><div class="kpi-d">${lowN?'<b>restock soon</b>':'all healthy'}</div></div>
+    <div class="kpi"><div class="kpi-l">Active Offers</div><div class="kpi-v">${activeOff}</div><div class="kpi-d">live in customer app</div></div>`;
+  /* 7-day revenue bars */
+  const days=[];let max=1,total7=0;
+  for(let d=6;d>=0;d--){
+    const dt=new Date();dt.setDate(dt.getDate()-d);
+    const key=dt.toDateString();
+    const rev=live.filter(o=>new Date(o.date).toDateString()===key).reduce((a,o)=>a+o.total,0);
+    days.push({l:dt.toLocaleDateString([],{weekday:'short'}),rev});
+    max=Math.max(max,rev);total7+=rev;
+  }
+  document.getElementById('rev7').textContent=money(total7)+' total';
+  document.getElementById('revChart').innerHTML=days.map(d=>`<div class="bar-col"><span class="bar-v">${d.rev?money(d.rev).replace('AED ',''):'—'}</span><div class="bar" style="height:${Math.max(3,d.rev/max*100)}%"></div><span class="bar-l">${d.l}</span></div>`).join('');
+  /* mode split donut */
+  const del=live.filter(o=>o.mode==='delivery').length,pk=live.length-del;
+  const tot=Math.max(1,del+pk),dPct=del/tot;
+  const C=2*Math.PI*34;
+  document.getElementById('modeSplit').innerHTML=`
+    <svg width="120" height="120" viewBox="0 0 90 90">
+      <circle cx="45" cy="45" r="34" fill="none" stroke="#E5E8ED" stroke-width="13"/>
+      <circle cx="45" cy="45" r="34" fill="none" stroke="#27954E" stroke-width="13" stroke-dasharray="${C*dPct} ${C}" stroke-linecap="round" transform="rotate(-90 45 45)"/>
+      <text x="45" y="43" text-anchor="middle" font-size="15" font-weight="900" font-family="Montserrat" fill="#111318">${live.length}</text>
+      <text x="45" y="55" text-anchor="middle" font-size="7" font-weight="700" font-family="Montserrat" fill="#8B93A5">ORDERS</text>
+    </svg>
+    <div class="dn-leg">
+      <div class="dn-li"><span class="dn-sw" style="background:#27954E"></span>Delivery — ${del}</div>
+      <div class="dn-li"><span class="dn-sw" style="background:#E5E8ED"></span>Store Pickup — ${pk}</div>
+    </div>`;
+  document.getElementById('recentOrders').innerHTML=ordTableHTML(ORD.slice(0,6),true);
+  document.getElementById('dashAct').innerHTML=actHTML(nxRead(NXK.act,[]).slice(0,10));
+}
+
+/* ─── ORDERS ─── */
+function ordTableHTML(list,compact){
+  if(!list.length)return '<div class="empty">No orders yet — they appear here the moment a customer checks out in the app.</div>';
+  return `<table><thead><tr><th>Order</th><th>Customer</th><th>Channel</th>${compact?'':'<th>Items</th>'}<th>Total</th><th>Status</th>${compact?'':'<th></th>'}</tr></thead><tbody>${list.map(o=>{
+    const st=ST[o.status]||ST.new;
+    return `<tr class="click" onclick="openDrawer('${o.id}')">
+      <td><div class="td-main">${o.id}</div><div class="td-sub">${fmtDT(o.date)}</div></td>
+      <td><div class="td-main" style="font-weight:700">${esc(o.customer?.name||'Guest')}</div><div class="td-sub">${esc(o.customer?.phone||'—')}</div></td>
+      <td><span class="mode-tag">${o.mode==='delivery'?'<svg viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13" rx="2"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>Delivery':'<svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>Pickup'}</span></td>
+      ${compact?'':`<td>${o.items.reduce((a,i)=>a+i.qty,0)} items</td>`}
+      <td style="font-weight:800;color:var(--tx)">${money(o.total)}</td>
+      <td><span class="st-pill" style="background:${st.c}">${st.l}</span></td>
+      ${compact?'':`<td>${nextActionBtn(o,'sm')}</td>`}
+    </tr>`;}).join('')}</tbody></table>`;
+}
+function nextActionBtn(o,size){
+  if(['done','cancelled'].includes(o.status))return '';
+  const lbl=o.status==='preparing'?NEXT_LBL['preparing_'+o.mode]:NEXT_LBL[o.status];
+  return `<button class="btn grn ${size||''}" onclick="event.stopPropagation();advanceOrder('${o.id}')">${lbl}</button>`;
+}
+function renderOrders(){
+  const chips=[['all','All'],['new','New'],['preparing','Preparing'],['ready','Ready'],['out','Out for Delivery'],['done','Completed'],['cancelled','Cancelled']];
+  document.getElementById('ordChips').innerHTML=chips.map(([k,l])=>{
+    const n=k==='all'?ORD.length:ORD.filter(o=>o.status===k).length;
+    return `<button class="chip ${ordFilter===k?'on':''}" onclick="ordFilter='${k}';renderOrders()">${l} (${n})</button>`;
+  }).join('');
+  let list=ordFilter==='all'?ORD:ORD.filter(o=>o.status===ordFilter);
+  if(searchQ)list=list.filter(o=>o.id.toLowerCase().includes(searchQ)||(''+(o.customer?.name||'')).toLowerCase().includes(searchQ));
+  document.getElementById('ordTable').innerHTML=ordTableHTML(list);
+}
+function globalSearch(q){searchQ=q.trim().toLowerCase();if(curView!=='orders')go('orders');else renderOrders()}
+function advanceOrder(id){
+  reload();
+  const o=ORD.find(x=>x.id===id);if(!o)return;
+  const flow=FLOW[o.mode]||FLOW.pickup;
+  const i=flow.indexOf(o.status);
+  if(i<0||i>=flow.length-1)return;
+  setStatus(o,flow[i+1]);
+}
+function cancelOrder(id){
+  reload();const o=ORD.find(x=>x.id===id);if(!o)return;
+  setStatus(o,'cancelled');
+}
+function setStatus(o,s){
+  o.status=s;(o.history=o.history||[]).push({s,at:new Date().toISOString()});
+  nxSet(NXK.ord,ORD);
+  const m=CUST_MSG[s]?CUST_MSG[s](o):null;
+  if(m)pushCustNotif('order',m[0],m[1],o.cid);
+  logAct('order','Order '+o.id+' → '+(ST[s]?.l||s)+(o.customer?.name?' · '+o.customer.name:''));
+  nxBump();
+  toast('Order '+o.id+' → '+(ST[s]?.l||s)+' · customer notified');
+  renderView();
+  if(document.getElementById('dw').classList.contains('on'))openDrawer(o.id,true);
+}
+
+/* ─── DRAWER ─── */
+function openDrawer(id,keep){
+  reload();
+  const o=ORD.find(x=>x.id===id);if(!o)return;
+  const st=ST[o.status]||ST.new;
+  document.getElementById('dwTitle').textContent=o.id;
+  document.getElementById('dwBody').innerHTML=`
+    <div style="display:flex;align-items:center;gap:9px;margin-bottom:4px">
+      <span class="st-pill" style="background:${st.c}">${st.l}</span>
+      <span style="font-size:10.5px;color:var(--tx3);font-weight:600">${fmtDT(o.date)}</span>
+    </div>
+    <div class="dw-sec">Customer</div>
+    <div class="dw-kv"><span>Name</span><b>${esc(o.customer?.name||'Guest')}</b></div>
+    <div class="dw-kv"><span>Phone</span><b>${esc(o.customer?.phone||'—')}</b></div>
+    ${o.mode==='delivery'?`<div class="dw-kv"><span>Address</span><b>${esc(o.customer?.addr||'—')}</b></div><div class="dw-kv"><span>Slot</span><b>${esc(o.customer?.slot||'ASAP')}</b></div>`:`<div class="dw-kv"><span>Branch</span><b>${esc(brShort(o))}</b></div>`}
+    <div class="dw-sec">Items — with shelf locations for picking</div>
+    ${o.items.map(i=>`<div class="dw-item"><div><div class="dw-iname">${esc(i.name)} ×${i.qty}</div><div class="dw-iloc">📍 ${esc(i.loc||'')}</div></div><span class="dw-iprice">${money(i.price*i.qty)}</span></div>`).join('')}
+    <div class="dw-sec">Payment</div>
+    <div class="dw-kv"><span>Subtotal</span><b>${money(o.sub??(o.total-(o.fee||0)))}</b></div>
+    ${o.fee?`<div class="dw-kv"><span>Delivery fee</span><b>${money(o.fee)}</b></div>`:''}
+    <div class="dw-kv" style="font-size:13.5px"><span style="font-weight:800;color:var(--tx)">Total</span><b style="color:var(--GD)">${money(o.total)}</b></div>
+    <div class="dw-sec">Timeline</div>
+    <div class="tl">${(o.history||[]).map(h=>`<div class="tl-item"><div class="tl-t">${ST[h.s]?.l||h.s}</div><div class="tl-d">${fmtDT(h.at)}</div></div>`).join('')}</div>`;
+  document.getElementById('dwFoot').innerHTML=
+    (['done','cancelled'].includes(o.status)?'<span style="font-size:11px;color:var(--tx3);font-weight:600;align-self:center">This order is closed.</span>'
+    :nextActionBtn(o)+`<button class="btn danger" onclick="cancelOrder('${o.id}')">Cancel</button>`);
+  document.getElementById('dwOv').classList.add('on');
+  document.getElementById('dw').classList.add('on');
+}
+function closeDrawer(){document.getElementById('dwOv').classList.remove('on');document.getElementById('dw').classList.remove('on')}
+
+/* ─── PICKUP COUNTER (kanban for in-store collection) ─── */
+function pkcCard(o,btn){
+  return `<div class="kb-card" onclick="openDrawer('${o.id}')">
+    <div class="kb-id">${o.id}</div>
+    <div class="kb-meta">${esc(o.customer?.name||'Guest')} · ${o.items.reduce((a,i)=>a+i.qty,0)} items · ${money(o.total)} · ${timeAgo(o.date)}</div>
+    <div class="kb-items">${o.items.slice(0,3).map(i=>esc(i.name)+' ×'+i.qty).join(' · ')}${o.items.length>3?' · +'+(o.items.length-3):''}</div>
+    ${btn||''}
+  </div>`;
+}
+function renderPkc(){
+  const today=new Date().toDateString();
+  const pk=ORD.filter(o=>o.mode==='pickup'&&o.status!=='cancelled');
+  const toPack=pk.filter(o=>['new','preparing'].includes(o.status));
+  const ready=pk.filter(o=>o.status==='ready');
+  const done=pk.filter(o=>o.status==='done'&&new Date(o.date).toDateString()===today);
+  document.getElementById('pkcBoard').innerHTML=`
+    <div class="kb-col">
+      <div class="kb-hd">🧺 To Pack<span class="kb-n">${toPack.length}</span></div>
+      <div class="kb-bd">${toPack.map(o=>pkcCard(o,`<button class="btn grn sm" style="width:100%;justify-content:center" onclick="event.stopPropagation();advanceOrder('${o.id}')">${o.status==='new'?'Start Preparing':'Mark Ready for Pickup'}</button>`)).join('')||'<div class="empty" style="padding:20px">Queue clear</div>'}</div>
+    </div>
+    <div class="kb-col">
+      <div class="kb-hd">🛍️ Ready — waiting for customer<span class="kb-n">${ready.length}</span></div>
+      <div class="kb-bd">${ready.map(o=>pkcCard(o,`<button class="btn dark sm" style="width:100%;justify-content:center" onclick="event.stopPropagation();go('scan')">Scan pass to hand over</button>`)).join('')||'<div class="empty" style="padding:20px">Nothing waiting</div>'}</div>
+    </div>
+    <div class="kb-col">
+      <div class="kb-hd">✅ Collected today<span class="kb-n">${done.length}</span></div>
+      <div class="kb-bd">${done.map(o=>pkcCard(o)).join('')||'<div class="empty" style="padding:20px">None yet today</div>'}</div>
+    </div>`;
+}
+
+/* ─── SCANNER ─── */
+function doScan(){
+  reload();
+  const raw=document.getElementById('scanInp').value.trim();
+  if(!raw)return;
+  let id=raw.toUpperCase();
+  if(id.startsWith('NXPASS|'))id=id.split('|')[1];
+  const o=ORD.find(x=>x.id.toUpperCase()===id);
+  const R=document.getElementById('scanResult');
+  document.getElementById('scanInp').value='';
+  if(!o){R.innerHTML=`<div class="card" style="border-color:var(--red)"><div class="card-bd" style="text-align:center"><div style="font-size:14px;font-weight:900;color:var(--red)">✕ No order found for “${esc(id)}”</div><div style="font-size:11px;color:var(--tx3);font-weight:600;margin-top:5px">Check the ID or ask the customer to reopen their pass in My Orders.</div></div></div>`;return}
+  const st=ST[o.status]||ST.new;
+  const ok=o.mode==='pickup'&&['ready','preparing','new'].includes(o.status);
+  R.innerHTML=`<div class="card verify-flash"><div class="card-bd">
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px">
+      <div style="width:44px;height:44px;border-radius:13px;background:${o.status==='done'?'rgba(229,57,53,.1)':'var(--GL)'};display:flex;align-items:center;justify-content:center;font-size:20px">${o.status==='done'?'⚠️':'✅'}</div>
+      <div><div style="font-size:15px;font-weight:900">${o.id} — ${o.status==='done'?'ALREADY COLLECTED':'PASS VERIFIED'}</div>
+      <div style="font-size:11px;color:var(--tx3);font-weight:600">${esc(o.customer?.name||'Guest')} · ${o.items.reduce((a,i)=>a+i.qty,0)} items · ${money(o.total)} · <span class="st-pill" style="background:${st.c}">${st.l}</span></div></div>
+    </div>
+    ${o.items.map(i=>`<div class="dw-item"><div><div class="dw-iname">${esc(i.name)} ×${i.qty}</div><div class="dw-iloc">📍 ${esc(i.loc||'')}</div></div><span class="dw-iprice">${money(i.price*i.qty)}</span></div>`).join('')}
+    <div style="height:12px"></div>
+    ${ok?`<button class="btn grn" style="width:100%;justify-content:center;padding:13px" onclick="handOver('${o.id}')"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Hand Over &amp; Mark Collected</button>`
+       :o.status==='done'?'<div class="empty" style="padding:8px">This pass was already used. Politely verify with the customer.</div>'
+       :`<button class="btn ghost" style="width:100%;justify-content:center" onclick="openDrawer('${o.id}')">Open order details</button>`}
+  </div></div>`;
+}
+function handOver(id){
+  const o=ORD.find(x=>x.id===id);if(!o)return;
+  setStatus(o,'done');
+  document.getElementById('scanResult').innerHTML=`<div class="card"><div class="card-bd" style="text-align:center;padding:26px"><div style="font-size:34px">🎉</div><div style="font-size:15px;font-weight:900;margin-top:6px">${o.id} handed over</div><div style="font-size:11px;color:var(--tx3);font-weight:600;margin-top:4px">Customer notified · order closed · ready for the next scan</div></div></div>`;
+  document.getElementById('scanInp').focus();
+}
+
+/* ─── INVENTORY ─── */
+function renderInv(){
+  const cats=['all',...new Set(CAT.map(p=>p.cat))];
+  document.getElementById('invChips').innerHTML=cats.map(c=>`<button class="chip ${invFilter===c?'on':''}" onclick="invFilter='${c.replace(/'/g,"\\'")}';renderInv()">${c==='all'?'All':c}</button>`).join('');
+  const list=invFilter==='all'?CAT:CAT.filter(p=>p.cat===invFilter);
+  const offs=nxRead(NXK.off,[]).filter(o=>o.active);
+  document.getElementById('invTable').innerHTML=`<table><thead><tr><th></th><th>Product</th><th>Location</th><th>Price (AED)</th><th>Stock</th><th>Status</th><th></th></tr></thead><tbody>${list.map(p=>{
+    const low=p.stock!=null&&p.stock<8&&p.stock>0,out=p.stock===0;
+    const hasOff=offs.some(o=>o.prodId===p.id);
+    return `<tr class="${out?'out-row':low?'low-row':''}">
+      <td style="width:46px"><img class="pimg" src="${p.img||''}" title="Click to change image" style="cursor:pointer" onclick="editImg(${p.id})" onerror="this.style.visibility='hidden'"></td>
+      <td><div class="td-main">${esc(p.name)}${p.brand?' <span class="offer-pill" style="background:var(--GL);color:var(--GD)">'+esc(p.brand)+'</span>':''}</div><div class="td-sub">${esc(p.unit)} · ${esc(p.cat)}${hasOff?' · <span class="offer-pill">ON OFFER</span>':''}</div></td>
+      <td style="font-size:10.5px">${esc(p.loc||'—')}</td>
+      <td><input class="inp-mini" type="number" min="1" step="0.5" value="${p.price}" id="pr-${p.id}"></td>
+      <td><input class="inp-mini" type="number" min="0" value="${p.stock??''}" id="stk-${p.id}"></td>
+      <td>${out?'<span class="stock-tag stock-out">OUT OF STOCK</span>':low?`<span class="stock-tag stock-low">LOW · ${p.stock}</span>`:'<span class="stock-tag stock-ok">IN STOCK</span>'}</td>
+      <td><button class="btn ghost sm" onclick="saveInv(${p.id})">Save</button></td>
+    </tr>`;}).join('')}</tbody></table>`;
+  syncInvBadge();
+}
+function saveInv(id){
+  reload();
+  const p=CAT.find(x=>x.id===id);if(!p)return;
+  const newPrice=parseFloat(document.getElementById('pr-'+id).value)||p.price;
+  const newStock=parseInt(document.getElementById('stk-'+id).value);
+  const oldPrice=p.price,oldStock=p.stock;
+  p.price=newPrice;
+  if(!isNaN(newStock))p.stock=newStock;
+  if(newPrice<oldPrice){p.was=p.was&&p.was>newPrice?p.was:oldPrice;p.deal=true;pushCustNotif('offer','Price drop: '+p.name,'Now '+money(newPrice)+' (was '+money(oldPrice)+') — limited time.');logAct('offer','Price drop published — '+p.name+' '+money(oldPrice)+' → '+money(newPrice))}
+  else if(newPrice>oldPrice){if(p.was&&p.was<=newPrice){delete p.was;p.deal=false}logAct('stock','Price updated — '+p.name+' → '+money(newPrice))}
+  if(oldStock===0&&p.stock>0){pushCustNotif('stock','Back in stock: '+p.name,p.name+' ('+p.unit+') is available again at '+(p.loc||'the store')+'.');logAct('stock',p.name+' restocked — '+p.stock+' units')}
+  else if(!isNaN(newStock)&&newStock!==oldStock){logAct('stock','Stock adjusted — '+p.name+': '+oldStock+' → '+newStock)}
+  nxSet(NXK.cat,CAT);nxBump();
+  toast(p.name+' updated · live in customer app');
+  renderInv();
+}
+function editImg(id){
+  reload();
+  const p=CAT.find(x=>x.id===id);if(!p)return;
+  const u=prompt('Image URL for '+p.name+':',p.img||'');
+  if(u==null)return;
+  p.img=u.trim();
+  nxSet(NXK.cat,CAT);nxBump();
+  logAct('stock','Image updated — '+p.name);
+  toast(p.name+' image updated · live in customer app');
+  renderInv();
+}
+function syncInvBadge(){
+  const n=CAT.filter(p=>p.stock!=null&&p.stock<8).length;
+  const b=document.getElementById('invBadge');
+  b.textContent=n||'';b.classList.toggle('visible',n>0);
+}
+function openProdModal(){
+  const sel=document.getElementById('npCat');
+  sel.innerHTML=[...new Set(CAT.map(p=>p.cat))].map(c=>`<option>${c}</option>`).join('');
+  document.getElementById('prodModal').classList.add('on');
+}
+function addProduct(){
+  reload();
+  const name=document.getElementById('npName').value.trim();
+  const unit=document.getElementById('npUnit').value.trim()||'1 pc';
+  const price=parseFloat(document.getElementById('npPrice').value);
+  if(!name||!price){toast('Name and price are required');return}
+  const p={
+    id:Math.max(...CAT.map(x=>x.id))+1,name,unit,price,
+    cat:document.getElementById('npCat').value,
+    img:document.getElementById('npImg').value.trim()||'https://images.unsplash.com/photo-1542838132-92c53300491e?w=300&h=300&fit=crop&q=80',
+    loc:document.getElementById('npLoc').value.trim()||'Aisle 4 · Rack 1 · Shelf 1',
+    stock:parseInt(document.getElementById('npStock').value)||24
+  };
+  CAT.push(p);nxSet(NXK.cat,CAT);
+  pushCustNotif('stock','New arrival: '+p.name,p.name+' ('+p.unit+') just landed — '+money(p.price)+' · '+p.loc);
+  logAct('stock','New product added — '+p.name+' · '+money(p.price));
+  nxBump();
+  document.getElementById('prodModal').classList.remove('on');
+  ['npName','npUnit','npPrice','npImg','npLoc'].forEach(i=>document.getElementById(i).value='');
+  toast(p.name+' added · customers notified');
+  renderInv();
+}
+
+/* ─── OFFERS ─── */
+function renderOffersView(){
+  const sel=document.getElementById('offProd');
+  const offs=nxRead(NXK.off,[]);
+  const activeIds=offs.filter(o=>o.active).map(o=>o.prodId);
+  sel.innerHTML=CAT.filter(p=>!activeIds.includes(p.id)).map(p=>`<option value="${p.id}">${esc(p.name)} — ${money(p.price)}</option>`).join('');
+  const act=offs.filter(o=>o.active);
+  document.getElementById('offList').innerHTML=act.length?`<table><thead><tr><th>Product</th><th>Deal</th><th>Campaign</th><th></th></tr></thead><tbody>${act.map(o=>{
+    const p=CAT.find(x=>x.id===o.prodId);
+    return `<tr><td><div class="td-main">${esc(o.name)}</div><div class="td-sub">since ${fmtDT(o.at)}</div></td>
+      <td><span class="offer-pill">${o.pct}% OFF</span><div class="td-sub" style="margin-top:3px">${money(o.oldPrice)} → <b style="color:var(--GD)">${money(o.newPrice)}</b></div></td>
+      <td style="font-size:11px">${esc(o.label||'—')}</td>
+      <td><button class="btn ghost sm" onclick="endOffer('${o.id}')">End offer</button></td></tr>`;}).join('')}</tbody></table>`
+    :'<div class="empty">No active offers.<br>Publish one — it appears in the customer app within seconds.</div>';
+}
+function createOffer(){
+  reload();
+  const pid=parseInt(document.getElementById('offProd').value);
+  const pct=Math.min(70,Math.max(5,parseInt(document.getElementById('offPct').value)||15));
+  const label=document.getElementById('offLbl').value.trim();
+  const p=CAT.find(x=>x.id===pid);if(!p){toast('Pick a product');return}
+  const oldPrice=p.price;
+  const newPrice=Math.max(1,Math.round(oldPrice*(1-pct/100)));
+  p.was=oldPrice;p.price=newPrice;p.deal=true;
+  nxSet(NXK.cat,CAT);
+  const offs=nxRead(NXK.off,[]);
+  offs.unshift({id:'OF'+Date.now(),prodId:pid,name:p.name,pct,oldPrice,newPrice,label,at:new Date().toISOString(),active:true});
+  nxSet(NXK.off,offs);
+  pushCustNotif('offer',pct+'% OFF '+p.name+' 🔥',(label?label+' — ':'')+'now '+money(newPrice)+' (was '+money(oldPrice)+'). While stocks last!');
+  logAct('offer','Offer published — '+p.name+' '+pct+'% off'+(label?' ('+label+')':''));
+  nxBump();
+  document.getElementById('offLbl').value='';
+  toast('Offer live · customers notified');
+  renderOffersView();
+}
+function endOffer(id){
+  reload();
+  const offs=nxRead(NXK.off,[]);
+  const o=offs.find(x=>x.id===id);if(!o)return;
+  o.active=false;
+  const p=CAT.find(x=>x.id===o.prodId);
+  if(p){p.price=o.oldPrice;delete p.was;p.deal=false;nxSet(NXK.cat,CAT)}
+  nxSet(NXK.off,offs);
+  logAct('offer','Offer ended — '+o.name);
+  nxBump();
+  toast('Offer ended · prices restored');
+  renderOffersView();
+}
+
+/* ─── CUSTOMERS ─── */
+function renderCust(){
+  const map={};
+  ORD.filter(o=>o.status!=='cancelled').forEach(o=>{
+    const k=(o.customer?.name||'Guest')+'|'+(o.customer?.phone||'');
+    (map[k]=map[k]||{name:o.customer?.name||'Guest',phone:o.customer?.phone||'—',n:0,spent:0,last:o.date,del:0,pk:0});
+    const c=map[k];c.n++;c.spent+=o.total;if(o.date>c.last)c.last=o.date;o.mode==='delivery'?c.del++:c.pk++;
+  });
+  const rows=Object.values(map).sort((a,b)=>b.spent-a.spent);
+  document.getElementById('custTable').innerHTML=rows.length?`<table><thead><tr><th>Customer</th><th>Orders</th><th>Lifetime Spend</th><th>Prefers</th><th>Last Order</th><th>Tier</th></tr></thead><tbody>${rows.map(c=>{
+    const tier=c.spent>=500?['VIP','#E8A020']:c.spent>=200?['Gold','#8B5CF6']:['Member','#3B82F6'];
+    return `<tr><td><div class="td-main">${esc(c.name)}</div><div class="td-sub">${esc(c.phone)}</div></td>
+      <td>${c.n}</td><td style="font-weight:800;color:var(--tx)">${money(c.spent)}</td>
+      <td style="font-size:11px">${c.del>=c.pk?'Delivery':'Pickup'}</td>
+      <td style="font-size:11px">${timeAgo(c.last)}</td>
+      <td><span class="st-pill" style="background:${tier[1]}">${tier[0]}</span></td></tr>`;}).join('')}</tbody></table>`
+    :'<div class="empty">Customers appear here automatically after their first order.</div>';
+}
+
+/* ─── ACTIVITY ─── */
+function actIcon(t){
+  if(t==='offer')return '<span class="act-dot offer"><svg viewBox="0 0 24 24"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/></svg></span>';
+  if(t==='stock')return '<span class="act-dot stock"><svg viewBox="0 0 24 24"><path d="M20 7l-8-4-8 4v10l8 4 8-4z"/></svg></span>';
+  return '<span class="act-dot"><svg viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg></span>';
+}
+function actHTML(list){
+  return list.length?list.map(a=>`<div class="act-item">${actIcon(a.type)}<div><div class="act-m">${esc(a.msg)}</div><div class="act-t">${timeAgo(a.at)}</div></div></div>`).join(''):'<div class="empty">Nothing yet — activity from both platforms lands here.</div>';
+}
+function renderActFull(){document.getElementById('actFull').innerHTML=actHTML(nxRead(NXK.act,[]))}
+
+/* ─── LIVE WATCHER — new orders arrive from the customer app ─── */
+let newOrderCount=0;
+function watch(){
+  if(NX_ONLINE)return;
+  const v=localStorage.getItem(NXK.ver)||'0';
+  if(v===nxVer)return;
+  nxVer=v;
+  reload();
+  const fresh=ORD.filter(o=>!knownIds.has(o.id));
+  if(fresh.length){
+    fresh.forEach(o=>{
+      knownIds.add(o.id);
+      newOrderCount++;
+      toast('🛒 New '+o.mode+' order '+o.id+' — '+esc(o.customer?.name||'Guest')+' — '+money(o.total));
+      chime();
+    });
+    syncOrdBadge();
+  }
+  renderView();
+}
+function syncOrdBadge(){
+  const b=document.getElementById('ordBadge');
+  b.textContent=newOrderCount||'';b.classList.toggle('visible',newOrderCount>0);
+}
+if(nxBus)nxBus.onmessage=()=>watch();
+window.addEventListener('storage',e=>{if(e.key===NXK.ver)watch()});
+setInterval(watch,2000);
+
+/* ─── UX HELPERS ─── */
+let toastT;
+function toast(msg){
+  document.getElementById('toastMsg').textContent=msg;
+  const t=document.getElementById('toast');
+  t.classList.add('on');
+  clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove('on'),3600);
+}
+let audioCtx;
+function chime(){
+  try{
+    audioCtx=audioCtx||new (window.AudioContext||window.webkitAudioContext)();
+    [[880,0],[1174.7,.14]].forEach(([f,d])=>{
+      const o=audioCtx.createOscillator(),g=audioCtx.createGain();
+      o.connect(g);g.connect(audioCtx.destination);
+      o.frequency.value=f;o.type='sine';
+      g.gain.setValueAtTime(.001,audioCtx.currentTime+d);
+      g.gain.exponentialRampToValueAtTime(.18,audioCtx.currentTime+d+.02);
+      g.gain.exponentialRampToValueAtTime(.001,audioCtx.currentTime+d+.32);
+      o.start(audioCtx.currentTime+d);o.stop(audioCtx.currentTime+d+.35);
+    });
+  }catch(e){}
+}
+function tickClock(){document.getElementById('tbClock').textContent=new Date().toLocaleString([],{weekday:'short',day:'numeric',month:'short',hour:'2-digit',minute:'2-digit',second:'2-digit'})}
+setInterval(tickClock,1000);tickClock();
+
+/* ─── INIT ─── */
+(async function(){
+  await nxBoot();
+  initData();
+  seedDemo();
+  renderDash();syncInvBadge();
+})();
+</script>
+</body>
+</html>
