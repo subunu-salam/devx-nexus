@@ -1,55 +1,43 @@
 [
  {
   "id": 1,
-  "name": "Strawberry Lemonade",
-  "unit": "450 ml",
-  "price": 139,
-  "was": 279,
-  "cat": "Beverages",
-  "img": "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=500&auto=format&fit=crop&q=80",
-  "loc": "Aisle 8 · Rack 1 · Shelf 1",
-  "isVegetarian": true,
-  "prepTime": 5,
+  "name": "Basmati Rice",
+  "brand": "Nexus Gold",
+  "group": "rice-basmati",
+  "unit": "5kg",
+  "price": 32,
+  "was": 36,
+  "cat": "Rice & Grains",
+  "img": "https://images.unsplash.com/photo-1536304929831-ee1ca9d44906?w=500&auto=format&fit=crop&q=80",
+  "loc": "Aisle 7 · Rack 3 · Shelf 6",
   "deal": true
  },
  {
   "id": 2,
-  "name": "Vietnamese Cold Coffee",
-  "unit": "450 ml",
-  "price": 189,
-  "was": 529,
-  "cat": "Beverages",
-  "img": "https://images.unsplash.com/photo-1517701604599-bb29b565090c?w=500&auto=format&fit=crop&q=80",
-  "loc": "Aisle 8 · Rack 1 · Shelf 2",
-  "isVegetarian": true,
-  "prepTime": 5,
-  "deal": true
+  "name": "Sella Rice",
+  "unit": "5kg",
+  "price": 28,
+  "cat": "Rice & Grains",
+  "img": "https://images.unsplash.com/photo-1586201375761-83865001e31c?w=500&auto=format&fit=crop&q=80",
+  "loc": "Aisle 7 · Rack 3 · Shelf 5"
  },
  {
   "id": 3,
-  "name": "Chole & Chapati",
-  "unit": "Serves 1",
-  "price": 149,
-  "was": 419,
+  "name": "Brown Rice",
+  "unit": "2kg",
+  "price": 18,
   "cat": "Rice & Grains",
-  "img": "https://images.unsplash.com/photo-1626132647523-66f5bf380027?w=500&auto=format&fit=crop&q=80",
-  "loc": "Aisle 7 · Rack 1 · Shelf 1",
-  "isVegetarian": true,
-  "prepTime": 5,
-  "deal": true
+  "img": "https://images.unsplash.com/photo-1613728913341-e3fcb5d3ad4d?w=500&auto=format&fit=crop&q=80",
+  "loc": "Aisle 7 · Rack 4 · Shelf 2"
  },
  {
   "id": 4,
-  "name": "Bhelpuri",
-  "unit": "1 Portion",
-  "price": 119,
-  "was": 229,
-  "cat": "Snacks",
-  "img": "https://images.unsplash.com/photo-1601050690597-df056fb4ce78?w=500&auto=format&fit=crop&q=80",
-  "loc": "Aisle 6 · Rack 1 · Shelf 1",
-  "isVegetarian": true,
-  "prepTime": 5,
-  "deal": true
+  "name": "Vermicelli",
+  "unit": "500g",
+  "price": 5,
+  "cat": "Rice & Grains",
+  "img": "https://images.unsplash.com/photo-1555126634-323283e090fa?w=500&auto=format&fit=crop&q=80",
+  "loc": "Aisle 7 · Rack 5 · Shelf 1"
  },
  {
   "id": 5,
@@ -58,10 +46,408 @@
   "price": 22,
   "was": 25,
   "cat": "Fresh Meat",
-  "img": "https://images.unsplash.com/photo-1604503468506-a8da13d11bbc?w=300&h=300&fit=crop&q=80",
+  "img": "https://images.unsplash.com/photo-1604503468506-a8da13d11bbc?w=500&auto=format&fit=crop&q=80",
   "loc": "Fresh Meat · Counter 2",
-  "isVegetarian": false,
-  "prepTime": 15,
   "deal": true
+ },
+ {
+  "id": 6,
+  "name": "Chicken Breast",
+  "unit": "500g",
+  "price": 16,
+  "cat": "Fresh Meat",
+  "img": "https://images.unsplash.com/photo-1615485500704-8e990f9900f7?w=500&auto=format&fit=crop&q=80",
+  "loc": "Fresh Meat · Counter 2"
+ },
+ {
+  "id": 7,
+  "name": "Lamb Shoulder",
+  "unit": "1kg",
+  "price": 55,
+  "cat": "Fresh Meat",
+  "img": "https://images.unsplash.com/photo-1603048297172-c92544798d5a?w=500&auto=format&fit=crop&q=80",
+  "loc": "Fresh Meat · Counter 1"
+ },
+ {
+  "id": 8,
+  "name": "Minced Beef",
+  "unit": "500g",
+  "price": 24,
+  "cat": "Fresh Meat",
+  "img": "https://images.unsplash.com/photo-1558030006-450675393462?w=500&auto=format&fit=crop&q=80",
+  "loc": "Fresh Meat · Counter 3"
+ },
+ {
+  "id": 9,
+  "name": "Fresh Yogurt",
+  "unit": "500g",
+  "price": 8,
+  "cat": "Dairy & Chilled",
+  "img": "https://images.unsplash.com/photo-1488477181946-6428a0291777?w=500&auto=format&fit=crop&q=80",
+  "loc": "Aisle 2 · Rack 1 · Shelf 4"
+ },
+ {
+  "id": 10,
+  "name": "Full Cream Milk",
+  "brand": "Nexus Dairy",
+  "group": "milk-1l",
+  "unit": "1L",
+  "price": 6,
+  "cat": "Dairy & Chilled",
+  "img": "https://images.unsplash.com/photo-1550583724-b2692b85b150?w=500&auto=format&fit=crop&q=80",
+  "loc": "Aisle 2 · Rack 2 · Shelf 3"
+ },
+ {
+  "id": 11,
+  "name": "Cheddar Cheese",
+  "unit": "200g",
+  "price": 12,
+  "cat": "Dairy & Chilled",
+  "img": "https://images.unsplash.com/photo-1486297678162-eb2a19b0a32d?w=500&auto=format&fit=crop&q=80",
+  "loc": "Aisle 2 · Rack 3 · Shelf 1"
+ },
+ {
+  "id": 12,
+  "name": "Butter",
+  "unit": "200g",
+  "price": 9,
+  "cat": "Dairy & Chilled",
+  "img": "https://images.unsplash.com/photo-1589985270826-4b7bb135bc9d?w=500&auto=format&fit=crop&q=80",
+  "loc": "Aisle 2 · Rack 3 · Shelf 2"
+ },
+ {
+  "id": 13,
+  "name": "Laban",
+  "unit": "1L",
+  "price": 5,
+  "cat": "Dairy & Chilled",
+  "img": "https://images.unsplash.com/photo-1563636619-e9143da7973b?w=500&auto=format&fit=crop&q=80",
+  "loc": "Aisle 2 · Rack 3 · Shelf 3"
+ },
+ {
+  "id": 14,
+  "name": "Eggs",
+  "unit": "30 pcs",
+  "price": 14,
+  "cat": "Dairy & Chilled",
+  "img": "https://images.unsplash.com/photo-1582722872445-44dc5f7e3c8f?w=500&auto=format&fit=crop&q=80",
+  "loc": "Aisle 2 · Rack 5 · Shelf 1"
+ },
+ {
+  "id": 15,
+  "name": "Onions",
+  "unit": "1kg",
+  "price": 4,
+  "cat": "Fresh Produce",
+  "img": "https://images.unsplash.com/photo-1508747703725-719777637510?w=500&auto=format&fit=crop&q=80",
+  "loc": "Aisle 1 · Rack 2 · Shelf 1"
+ },
+ {
+  "id": 16,
+  "name": "Tomatoes",
+  "unit": "1kg",
+  "price": 5,
+  "cat": "Fresh Produce",
+  "img": "https://images.unsplash.com/photo-1546470427-227c4b0a5f80?w=500&auto=format&fit=crop&q=80",
+  "loc": "Aisle 1 · Rack 1 · Shelf 2"
+ },
+ {
+  "id": 17,
+  "name": "Potatoes",
+  "unit": "1kg",
+  "price": 4,
+  "cat": "Fresh Produce",
+  "img": "https://images.unsplash.com/photo-1518977676601-b53f82aba655?w=500&auto=format&fit=crop&q=80",
+  "loc": "Aisle 1 · Rack 2 · Shelf 3"
+ },
+ {
+  "id": 18,
+  "name": "Cucumber",
+  "unit": "500g",
+  "price": 3,
+  "cat": "Fresh Produce",
+  "img": "https://images.unsplash.com/photo-1449300079323-02e209d9d3a6?w=500&auto=format&fit=crop&q=80",
+  "loc": "Aisle 1 · Rack 1 · Shelf 4"
+ },
+ {
+  "id": 19,
+  "name": "Bananas",
+  "unit": "1kg",
+  "price": 6,
+  "cat": "Fresh Produce",
+  "img": "https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?w=500&auto=format&fit=crop&q=80",
+  "loc": "Aisle 1 · Rack 4 · Shelf 1"
+ },
+ {
+  "id": 20,
+  "name": "Lemons",
+  "unit": "500g",
+  "price": 4,
+  "cat": "Fresh Produce",
+  "img": "https://images.unsplash.com/photo-1582560475093-ba66accbc424?w=500&auto=format&fit=crop&q=80",
+  "loc": "Aisle 3 · Rack 3 · Shelf 2"
+ },
+ {
+  "id": 21,
+  "name": "Biryani Masala",
+  "unit": "100g",
+  "price": 6,
+  "cat": "Spices",
+  "img": "https://images.unsplash.com/photo-1596040033229-a9821ebd058d?w=500&auto=format&fit=crop&q=80",
+  "loc": "Aisle 5 · Rack 4 · Shelf 3"
+ },
+ {
+  "id": 22,
+  "name": "Turmeric Powder",
+  "unit": "100g",
+  "price": 4,
+  "cat": "Spices",
+  "img": "https://images.unsplash.com/photo-1615485290382-441e4d049cb5?w=500&auto=format&fit=crop&q=80",
+  "loc": "Aisle 5 · Rack 4 · Shelf 2"
+ },
+ {
+  "id": 23,
+  "name": "Chili Powder",
+  "unit": "100g",
+  "price": 5,
+  "cat": "Spices",
+  "img": "https://images.unsplash.com/photo-1526346698789-22fd84314424?w=500&auto=format&fit=crop&q=80",
+  "loc": "Aisle 5 · Rack 4 · Shelf 1"
+ },
+ {
+  "id": 24,
+  "name": "Fried Onions",
+  "unit": "200g",
+  "price": 7,
+  "cat": "Spices",
+  "img": "https://images.unsplash.com/photo-1632664025867-25e1b72e7c7b?w=500&auto=format&fit=crop&q=80",
+  "loc": "Aisle 5 · Rack 2 · Shelf 2"
+ },
+ {
+  "id": 25,
+  "name": "Saffron",
+  "unit": "1g",
+  "price": 12,
+  "cat": "Spices",
+  "img": "https://images.unsplash.com/photo-1599909631840-12b6deb66e8c?w=500&auto=format&fit=crop&q=80",
+  "loc": "Aisle 5 · Rack 4 · Shelf 1"
+ },
+ {
+  "id": 26,
+  "name": "Garam Masala",
+  "unit": "100g",
+  "price": 5,
+  "cat": "Spices",
+  "img": "https://images.unsplash.com/photo-1517244683847-7456b63c5969?w=500&auto=format&fit=crop&q=80",
+  "loc": "Aisle 5 · Rack 3 · Shelf 3"
+ },
+ {
+  "id": 27,
+  "name": "Pepsi Cola",
+  "unit": "1.5L",
+  "price": 6,
+  "was": 8,
+  "cat": "Beverages",
+  "img": "https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=500&auto=format&fit=crop&q=80",
+  "loc": "Aisle 8 · Rack 1 · Shelf 3",
+  "deal": true
+ },
+ {
+  "id": 28,
+  "name": "Mineral Water",
+  "brand": "Nexus Aqua",
+  "group": "water-12",
+  "unit": "12×500ml",
+  "price": 8,
+  "cat": "Beverages",
+  "img": "https://images.unsplash.com/photo-1548839140-29a749e1cf4d?w=500&auto=format&fit=crop&q=80",
+  "loc": "Aisle 8 · Rack 3 · Shelf 1"
+ },
+ {
+  "id": 29,
+  "name": "Orange Juice",
+  "unit": "1L",
+  "price": 10,
+  "cat": "Beverages",
+  "img": "https://images.unsplash.com/photo-1600271886742-f049cd451bba?w=500&auto=format&fit=crop&q=80",
+  "loc": "Aisle 8 · Rack 2 · Shelf 4"
+ },
+ {
+  "id": 30,
+  "name": "Green Tea",
+  "unit": "25 bags",
+  "price": 12,
+  "cat": "Beverages",
+  "img": "https://images.unsplash.com/photo-1564890369478-c89ca6d9cde9?w=500&auto=format&fit=crop&q=80",
+  "loc": "Aisle 8 · Rack 4 · Shelf 2"
+ },
+ {
+  "id": 31,
+  "name": "Arabic Bread",
+  "unit": "6 pcs",
+  "price": 3,
+  "cat": "Bakery",
+  "img": "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=500&auto=format&fit=crop&q=80",
+  "loc": "Bakery · Counter 1"
+ },
+ {
+  "id": 32,
+  "name": "Samoon Bread",
+  "unit": "4 pcs",
+  "price": 4,
+  "cat": "Bakery",
+  "img": "https://images.unsplash.com/photo-1549931319-a545dcf3bc7c?w=500&auto=format&fit=crop&q=80",
+  "loc": "Bakery · Counter 1"
+ },
+ {
+  "id": 33,
+  "name": "Croissant",
+  "unit": "4 pcs",
+  "price": 8,
+  "cat": "Bakery",
+  "img": "https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=500&auto=format&fit=crop&q=80",
+  "loc": "Bakery · Counter 2"
+ },
+ {
+  "id": 34,
+  "name": "Ariel Detergent",
+  "brand": "Ariel",
+  "group": "detergent-2kg",
+  "unit": "2kg",
+  "price": 28,
+  "was": 34,
+  "cat": "Household",
+  "img": "https://images.unsplash.com/photo-1563453392212-326f5e854473?w=500&auto=format&fit=crop&q=80",
+  "loc": "Aisle 10 · Rack 2 · Shelf 4",
+  "deal": true
+ },
+ {
+  "id": 35,
+  "name": "Fairy Dish Soap",
+  "unit": "750ml",
+  "price": 9,
+  "cat": "Household",
+  "img": "https://images.unsplash.com/photo-1585771724684-38269d6639fd?w=500&auto=format&fit=crop&q=80",
+  "loc": "Aisle 10 · Rack 3 · Shelf 2"
+ },
+ {
+  "id": 36,
+  "name": "Tissue Box",
+  "unit": "5 boxes",
+  "price": 12,
+  "cat": "Household",
+  "img": "https://images.unsplash.com/photo-1584556812952-905ffd0c611a?w=500&auto=format&fit=crop&q=80",
+  "loc": "Aisle 10 · Rack 1 · Shelf 1"
+ },
+ {
+  "id": 37,
+  "name": "Garbage Bags",
+  "unit": "30 pcs",
+  "price": 8,
+  "cat": "Household",
+  "img": "https://images.unsplash.com/photo-1605600659908-0ef719419d41?w=500&auto=format&fit=crop&q=80",
+  "loc": "Aisle 10 · Rack 4 · Shelf 3"
+ },
+ {
+  "id": 38,
+  "name": "Lay's Chips",
+  "unit": "165g",
+  "price": 7,
+  "cat": "Snacks",
+  "img": "https://images.unsplash.com/photo-1566478989037-eec170784d0b?w=500&auto=format&fit=crop&q=80",
+  "loc": "Aisle 6 · Rack 1 · Shelf 2"
+ },
+ {
+  "id": 39,
+  "name": "Oreo Cookies",
+  "unit": "176g",
+  "price": 6,
+  "cat": "Snacks",
+  "img": "https://images.unsplash.com/photo-1558961363-fa8fdf82db35?w=500&auto=format&fit=crop&q=80",
+  "loc": "Aisle 6 · Rack 2 · Shelf 3"
+ },
+ {
+  "id": 40,
+  "name": "Mixed Nuts",
+  "unit": "250g",
+  "price": 18,
+  "cat": "Snacks",
+  "img": "https://images.unsplash.com/photo-1536816579748-4ecb3f03d72a?w=500&auto=format&fit=crop&q=80",
+  "loc": "Aisle 6 · Rack 3 · Shelf 1"
+ },
+ {
+  "id": 41,
+  "name": "Sunflower Oil",
+  "brand": "Nexus Value",
+  "group": "oil-sun",
+  "unit": "1.8L",
+  "price": 16,
+  "cat": "Cooking Oil",
+  "img": "https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?w=500&auto=format&fit=crop&q=80",
+  "loc": "Aisle 9 · Rack 1 · Shelf 2"
+ },
+ {
+  "id": 42,
+  "name": "Olive Oil",
+  "unit": "500ml",
+  "price": 22,
+  "cat": "Cooking Oil",
+  "img": "https://images.unsplash.com/photo-1543364195-bfe6e4932397?w=500&auto=format&fit=crop&q=80",
+  "loc": "Aisle 9 · Rack 2 · Shelf 1"
+ },
+ {
+  "id": 43,
+  "name": "Basmati Rice",
+  "brand": "Daawat Premium",
+  "group": "rice-basmati",
+  "unit": "5kg",
+  "price": 38,
+  "cat": "Rice & Grains",
+  "img": "https://images.unsplash.com/photo-1586201375761-83865001e31c?w=500&auto=format&fit=crop&q=80",
+  "loc": "Aisle 7 · Rack 3 · Shelf 6"
+ },
+ {
+  "id": 44,
+  "name": "Full Cream Milk",
+  "brand": "Almarai",
+  "group": "milk-1l",
+  "unit": "1L",
+  "price": 7.5,
+  "cat": "Dairy & Chilled",
+  "img": "https://images.unsplash.com/photo-1550583724-b2692b85b150?w=500&auto=format&fit=crop&q=80",
+  "loc": "Aisle 2 · Rack 2 · Shelf 3"
+ },
+ {
+  "id": 45,
+  "name": "Sunflower Oil",
+  "brand": "Noor",
+  "group": "oil-sun",
+  "unit": "1.8L",
+  "price": 19,
+  "cat": "Cooking Oil",
+  "img": "https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?w=500&auto=format&fit=crop&q=80",
+  "loc": "Aisle 9 · Rack 1 · Shelf 2"
+ },
+ {
+  "id": 46,
+  "name": "Mineral Water",
+  "brand": "Masafi",
+  "group": "water-12",
+  "unit": "12×500ml",
+  "price": 10,
+  "cat": "Beverages",
+  "img": "https://images.unsplash.com/photo-1548839140-29a749e1cf4d?w=500&auto=format&fit=crop&q=80",
+  "loc": "Aisle 8 · Rack 3 · Shelf 1"
+ },
+ {
+  "id": 47,
+  "name": "Laundry Detergent",
+  "brand": "Persil",
+  "group": "detergent-2kg",
+  "unit": "2kg",
+  "price": 30,
+  "cat": "Household",
+  "img": "https://images.unsplash.com/photo-1563453392212-326f5e854473?w=500&auto=format&fit=crop&q=80",
+  "loc": "Aisle 10 · Rack 2 · Shelf 5"
  }
 ]
