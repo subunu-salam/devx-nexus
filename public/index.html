@@ -721,6 +721,33 @@ body{
 .mo-step.done .mo-lbl,.mo-step.cur .mo-lbl{color:var(--GD)}
 .mo-pass-btn{width:100%;margin-top:10px;padding:9px;border-radius:10px;border:1px dashed var(--bdr2);background:var(--card);color:var(--tx);font-family:inherit;font-size:10.5px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px}
 .mo-pass-btn svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+  /* Modern Shadcn Card Mechanics & Hover triggers */
+  .p-card {
+    position: relative !important;
+    overflow: hidden !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  }
+  .p-card:hover {
+    transform: translateY(-4px) scale(1.02) !important;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1) !important;
+  }
+  .p-img-w img {
+    transition: transform 0.5s ease !important;
+  }
+  .p-card:hover .p-img-w img {
+    transform: scale(1.08) !important;
+  }
+  /* Slide Up & Fade Pop Animation for Add Button */
+  .p-add {
+    transform: translateY(10px) scale(0.9) !important;
+    opacity: 0 !important;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  }
+  .p-card:hover .p-add {
+    transform: translateY(0) scale(1) !important;
+    opacity: 1 !important;
+  }
 </style>
 </head>
 <body>
