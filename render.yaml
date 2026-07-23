@@ -8,3 +8,7 @@ services:
     envVars:
       - key: ADMIN_PIN
         value: "1234"   # change this before going live
+      - key: GROQ_API_KEY   # Groq Llama 3.1 — set the real gsk_ value in the Render dashboard
+        sync: false
+      - key: OPENAI_API_KEY # optional fallback — set in the Render dashboard
+        sync: false

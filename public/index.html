@@ -330,6 +330,33 @@ body{
 .ai-padd svg{width:13px;height:13px;stroke:#fff;fill:none;stroke-width:2.5;stroke-linecap:round}
 .ai-pdone{background:var(--GL);border:1px solid rgba(61,187,106,.25);border-radius:7px;padding:4px 8px;font-size:10px;font-weight:700;color:var(--GD);white-space:nowrap}
 
+/* Interactive AI card: qty stepper + variant swap */
+.ai-pcard{flex-direction:column;align-items:stretch}
+.ai-pcard-main{display:flex;align-items:center;gap:10px;width:100%}
+.ai-pdeal{font-size:10px;font-weight:700;color:var(--G);margin-top:2px}
+.ai-qty{display:flex;align-items:center;gap:7px;background:var(--card);border:1px solid var(--bdr);border-radius:8px;padding:2px 4px}
+.ai-qbtn{width:22px;height:22px;border:none;background:transparent;color:var(--tx2);font-size:16px;font-weight:800;cursor:pointer;line-height:1;border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:'Montserrat',sans-serif}
+.ai-qbtn:active{background:var(--bdr)}
+.ai-qval{min-width:16px;text-align:center;font-size:13px;font-weight:800;color:var(--tx)}
+.ai-alt-wrap{margin-top:8px;padding-top:8px;border-top:1px dashed var(--bdr)}
+.ai-alt-toggle{background:none;border:none;color:var(--tx2);font-size:11px;font-weight:700;cursor:pointer;padding:0;font-family:'Montserrat',sans-serif}
+.ai-alt-toggle:active{color:var(--G)}
+.ai-alt-list{display:flex;gap:6px;flex-wrap:wrap;margin-top:7px}
+.ai-alt-chip{padding:6px 10px;border-radius:var(--pill);border:1.5px solid var(--bdr);background:var(--card);font-size:11px;font-weight:600;color:var(--tx2);cursor:pointer;font-family:'Montserrat',sans-serif;transition:.15s}
+.ai-alt-chip:active{border-color:var(--G);color:var(--G);background:var(--GL)}
+/* Clarifying question */
+.ai-clarify{margin-top:8px;font-size:13.5px;font-weight:800;color:var(--tx);line-height:1.45}
+/* Recipe steps */
+.ai-recipe{margin-top:11px;background:var(--bg);border:1px solid var(--bdr);border-radius:12px;padding:12px 14px}
+.ai-recipe-h{font-size:13px;font-weight:800;color:var(--tx);margin-bottom:8px;letter-spacing:-.01em}
+.ai-recipe-steps{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px}
+.ai-recipe-steps li{font-size:12.5px;font-weight:500;color:var(--tx2);line-height:1.5;padding-left:2px}
+/* Proactive follow-up + suggestion chips */
+.ai-followup{margin-top:11px;font-size:12.5px;font-weight:600;color:var(--tx2);line-height:1.45}
+.ai-sugg{display:flex;gap:7px;flex-wrap:wrap;margin-top:9px}
+.ai-sugg-chip{padding:8px 13px;border-radius:var(--pill);border:1.5px solid var(--G);background:var(--GL);font-size:12px;font-weight:700;color:var(--GD);cursor:pointer;font-family:'Montserrat',sans-serif;transition:.15s}
+.ai-sugg-chip:active{background:var(--G);color:#fff;transform:scale(.97)}
+
 /* Cart summary in AI */
 .ai-cart-sum{
   margin-top:10px;background:linear-gradient(135deg,var(--BK) 0%,#1E2A1E 100%);
@@ -359,6 +386,16 @@ body{
 .chat-chips-row::-webkit-scrollbar{display:none}
 .c-chip{padding:8px 14px;border-radius:var(--pill);border:1.5px solid var(--bdr);background:var(--card);font-size:12px;font-weight:600;color:var(--tx2);white-space:nowrap;cursor:pointer;font-family:'Montserrat',sans-serif;flex-shrink:0;box-shadow:var(--shadow);transition:.15s}
 .c-chip:active{border-color:var(--G);color:var(--G)}
+
+/* Mic language selector */
+.mic-lang-wrap{position:relative;flex-shrink:0}
+.mic-lang-btn{width:34px;height:34px;border-radius:50%;border:1.5px solid var(--bdr);background:var(--bg);color:var(--tx2);font-size:12px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;font-family:'Montserrat',sans-serif;transition:.15s}
+.mic-lang-btn:active{border-color:var(--G);color:var(--G)}
+.mic-lang-menu{position:absolute;bottom:44px;left:0;background:var(--card);border:1px solid var(--bdr);border-radius:12px;box-shadow:0 8px 28px rgba(0,0,0,.18);padding:6px;display:none;flex-direction:column;gap:2px;min-width:150px;max-height:260px;overflow-y:auto;z-index:50}
+.mic-lang-menu.on{display:flex}
+.mic-lang-menu button{text-align:left;padding:9px 12px;border:none;background:none;font-size:13px;font-weight:600;color:var(--tx2);cursor:pointer;border-radius:8px;font-family:'Montserrat',sans-serif}
+.mic-lang-menu button:active{background:var(--bg)}
+.mic-lang-menu button.on{background:var(--GL);color:var(--GD);font-weight:800}
 
 /* Chat input bar */
 .chat-input-bar{
@@ -853,7 +890,7 @@ body{
         </button>
       </div>
       <div class="hero-stats">
-        <div class="h-stat"><div class="h-stat-v">42+</div><div class="h-stat-l">Products</div></div>
+        <div class="h-stat"><div class="h-stat-v" id="heroProdCount">800+</div><div class="h-stat-l">Products</div></div>
         <div class="h-stat"><div class="h-stat-v">60 min</div><div class="h-stat-l">Delivery</div></div>
         <div class="h-stat"><div class="h-stat-v">3</div><div class="h-stat-l">Branches</div></div>
         <div class="h-stat"><div class="h-stat-v">AED 0</div><div class="h-stat-l">Min Order</div></div>
@@ -924,10 +961,14 @@ body{
     <button class="c-chip" onclick="sendChat('Cleaning supplies for the month')">Cleaning</button>
   </div>
   <div class="chat-input-bar">
+    <div class="mic-lang-wrap">
+      <button class="mic-lang-btn" id="micLangBtn" onclick="toggleMicLangMenu(event)" title="Voice language"><span id="micLangCode">EN</span></button>
+      <div class="mic-lang-menu" id="micLangMenu"></div>
+    </div>
     <button class="chat-mic" id="micBtn" onclick="toggleVoice()">
       <svg viewBox="0 0 24 24"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
     </button>
-    <input class="chat-input" id="chatInput" placeholder="Type your request…" onkeydown="if(event.key==='Enter'){sendChat();event.preventDefault()}">
+    <input class="chat-input" id="chatInput" placeholder="Type or speak your request…" onkeydown="if(event.key==='Enter'){sendChat();event.preventDefault()}">
     <button class="chat-send" onclick="sendChat()">
       <svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
     </button>
@@ -1325,6 +1366,7 @@ function pCardHTML(p){
   </div>`;
 }
 function renderProds(list){
+  const hc=document.getElementById('heroProdCount');if(hc&&DB.length)hc.textContent=(Math.floor(DB.length/10)*10)+'+';
   const data=list||(curCat==='all'?DB:DB.filter(p=>p.cat===curCat));
   document.getElementById('prodsTitle').textContent=curCat==='all'&&!list?'All Products':curCat==='all'&&list?'Search Results':curCat;
   document.getElementById('prodsCnt').textContent=data.length+' items';
@@ -1348,7 +1390,7 @@ function addOne(id){
   const p=DB.find(x=>x.id===id);if(!p)return;
   const q=cart[id]||0;
   if(p.stock!=null&&q>=p.stock){showToast(p.stock<=0?'Out of stock':'Only '+p.stock+' available','');return}
-  cart[id]=q+1;renderProds();syncCartBadge();showToast(p.name+' added ✓','green');
+  cart[id]=q+1;renderProds();syncCartBadge();cartAdded();
 }
 function chQty(id,d){
   if(d>0){const p=DB.find(x=>x.id===id);if(p&&p.stock!=null&&(cart[id]||0)>=p.stock){showToast('Only '+p.stock+' available','');return}}
@@ -1894,15 +1936,70 @@ function aiEngine(t){
 
 /* ─── AI CHAT RENDERING ─── */
 let PLANS=[];
-function planCards(plan){
-  return plan.map(({p,qty})=>`<div class="ai-pcard">
-    <img class="ai-pimg" src="${p.img}" alt="${p.name}" onerror="this.src='https://images.unsplash.com/photo-1542838132-92c53300491e?w=92&h=92&fit=crop'">
-    <div class="ai-pdet"><div class="ai-pname">${p.name}${qty>1?` ×${qty}`:''}</div><div class="ai-punit">${p.unit}${p.brand?" · "+p.brand:""}</div></div>
-    <div class="ai-pright">
-      <div class="ai-pprice">AED ${p.price*qty}</div>
-      <button class="ai-padd" id="aipadd-${p.id}" onclick="aiAddOne(${p.id})"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button>
-    </div>
-  </div>`).join('');
+const FALLBACK_IMG="https://images.unsplash.com/photo-1542838132-92c53300491e?w=92&h=92&fit=crop";
+/* One interactive card per plan row. Supports: quantity stepper,
+   brand/size badge, and an "other options" swap within the same group. */
+function planCards(pidx){
+  const rows=PLANS[pidx].plan;
+  return rows.map((row,i)=>{
+    const p=row.p, qty=row.qty;
+    const alts=row.alternatives||[];
+    const altBlock=alts.length?`
+      <div class="ai-alt-wrap">
+        <button class="ai-alt-toggle" onclick="aiToggleAlt(${pidx},${i})">▾ ${alts.length} other brand${alts.length>1?'s':''}/size${alts.length>1?'s':''}</button>
+        <div class="ai-alt-list" id="aialt-${pidx}-${i}" style="display:none">
+          ${alts.map(a=>`<button class="ai-alt-chip" onclick="aiSwap(${pidx},${i},${a.id})">${a.brand?a.brand+' · ':''}${a.unit} — AED ${a.price}</button>`).join('')}
+        </div>
+      </div>`:'';
+    return `<div class="ai-pcard" id="aicard-${pidx}-${i}">
+      <div class="ai-pcard-main">
+        <img class="ai-pimg" src="${p.img||FALLBACK_IMG}" alt="${p.name}" loading="lazy" decoding="async" onerror="this.src='${FALLBACK_IMG}'">
+        <div class="ai-pdet">
+          <div class="ai-pname">${p.name}</div>
+          <div class="ai-punit">${p.unit}${p.brand?' · <b>'+p.brand+'</b>':''}</div>
+          ${p.deal&&p.was?`<div class="ai-pdeal">Deal · was AED ${p.was}</div>`:''}
+        </div>
+        <div class="ai-pright">
+          <div class="ai-pprice" id="aiprice-${pidx}-${i}">AED ${p.price*qty}</div>
+          <div class="ai-qty">
+            <button class="ai-qbtn" onclick="aiQty(${pidx},${i},-1)">−</button>
+            <span class="ai-qval" id="aiqty-${pidx}-${i}">${qty}</span>
+            <button class="ai-qbtn" onclick="aiQty(${pidx},${i},1)">+</button>
+          </div>
+        </div>
+      </div>
+      ${altBlock}
+    </div>`;
+  }).join('');
+}
+function aiQty(pidx,i,d){
+  const row=PLANS[pidx].plan[i];if(!row)return;
+  row.qty=Math.max(1,Math.min(20,row.qty+d));
+  document.getElementById(`aiqty-${pidx}-${i}`).textContent=row.qty;
+  document.getElementById(`aiprice-${pidx}-${i}`).textContent='AED '+(row.p.price*row.qty);
+  aiRefreshTotal(pidx);
+}
+function aiToggleAlt(pidx,i){
+  const el=document.getElementById(`aialt-${pidx}-${i}`);
+  if(el)el.style.display=el.style.display==='none'?'flex':'none';
+}
+function aiSwap(pidx,i,altId){
+  const row=PLANS[pidx].plan[i];if(!row)return;
+  const alt=(row.alternatives||[]).find(a=>a.id===altId);if(!alt)return;
+  /* swap chosen SKU with the alternative; keep the old one available to swap back */
+  const oldP=row.p;
+  row.alternatives=(row.alternatives||[]).filter(a=>a.id!==altId).concat([oldP]).sort((a,b)=>a.price-b.price);
+  row.p=alt;
+  /* re-render the whole product list block for this message */
+  const list=document.getElementById(`aiplist-${pidx}`);
+  if(list)list.innerHTML=planCards(pidx);
+  aiRefreshTotal(pidx);
+}
+function aiRefreshTotal(pidx){
+  const rows=PLANS[pidx].plan;
+  const tot=rows.reduce((s,r)=>s+r.p.price*r.qty,0);
+  const el=document.getElementById(`aitot-${pidx}`);if(el)el.textContent='AED '+tot;
+  const btn=document.getElementById(`aiaddall-${pidx}`);if(btn&&!PLANS[pidx].added)btn.innerHTML='Add All to Cart — AED '+tot;
 }
 function budgetCardHTML(meta,count){
   const pct=Math.min(100,Math.round(meta.spent/meta.budget*100));
@@ -1913,28 +2010,68 @@ function budgetCardHTML(meta,count){
     <div class="bp-row"><span>Cart <strong>AED ${meta.spent}</strong> · ${pct}% of budget</span><span class="bp-left">AED ${meta.remaining} left</span></div>
   </div>`;
 }
-function sendChat(preset){
-  const inp=document.getElementById('chatInput');
+async function sendChat(preset){
+  const inp=document.getElementById("chatInput");
   const text=(preset||inp.value).trim();
   if(!text||aiBusy)return;
-  inp.value='';
-  document.getElementById('chatChips').style.display='none';
-  addMsg('user',`<p>${text}</p>`);
-  showTyping(true);aiBusy=true;
-  setTimeout(()=>{
-    const{key,reply,plan,meta}=aiEngine(text.toLowerCase());
-    let tot=0,saved=0;
-    plan.forEach(({p,qty})=>{tot+=p.price*qty;if(p.was)saved+=(p.was-p.price)*qty});
-    const idx=PLANS.push({key,plan})-1;
-    const summary=`<div class="ai-cart-sum">
-      <div class="ai-cs-row"><span>${plan.length} items</span>${saved>0?`<span class="ai-cs-save">Save AED ${saved}</span>`:''}</div>
-      <div class="ai-cs-tot"><span>Total</span><span>AED ${tot}</span></div>
-      <button class="ai-add-all" onclick="aiAddPlan(${idx},this)">Add All to Cart — AED ${tot}</button>
-    </div>`;
-    showTyping(false);aiBusy=false;
-    addMsg('ai',`<p>${reply}</p>${meta?budgetCardHTML(meta,plan.length):''}<div class="ai-prod-list">${planCards(plan)}</div>${summary}`);
+  inp.value="";
+  document.getElementById("chatChips").style.display="none";
+  addMsg("user", `<p>${text}</p>`);
+  showTyping(true); aiBusy=true;
+
+  try {
+    const response = await fetch("/api/concierge", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ prompt: text, session_id: CID })
+    });
+    const data = await response.json();
+
+    const reply = data.reply || "Here is what I found for you:";
+    const clarify = data.clarify || "";
+    const recipe = data.recipe || null;
+    const followUp = data.follow_up || "";
+    const suggestions = Array.isArray(data.suggestions) ? data.suggestions : [];
+    const plan = (data.plan || []).map(r => ({ p: r.p, qty: r.qty || 1, alternatives: r.alternatives || [] }));
+    const tot = data.total != null ? data.total : plan.reduce((s, r) => s + r.p.price * r.qty, 0);
+
+    const chip = s => `<button class="ai-sugg-chip" onclick="sendChat(${JSON.stringify(s).replace(/"/g,'&quot;')})">${s}</button>`;
+
+    // Ambiguous request → the AI asks a question with tappable choices, no products.
+    if (clarify) {
+      const opts = suggestions.length ? `<div class="ai-sugg">${suggestions.map(chip).join('')}</div>` : "";
+      showTyping(false); aiBusy = false;
+      addMsg("ai", `<p>${reply}</p><p class="ai-clarify">${clarify}</p>${opts}`);
+      refocusChat();
+      return;
+    }
+
+    const idx = PLANS.push({ key: "ai_concierge", plan, added: false }) - 1;
+
+    // Recipe steps (only when the shopper asked for a recipe).
+    const recipeBlock = recipe && recipe.steps && recipe.steps.length ? `<div class="ai-recipe">
+      <div class="ai-recipe-h">👨‍🍳 ${recipe.title || 'Recipe'}</div>
+      <ol class="ai-recipe-steps">${recipe.steps.map(s => `<li>${s}</li>`).join('')}</ol>
+    </div>` : "";
+
+    const listBlock = plan.length ? `<div class="ai-prod-list" id="aiplist-${idx}">${planCards(idx)}</div>
+      <div class="ai-cart-sum">
+        <div class="ai-cs-tot"><span>Total</span><span id="aitot-${idx}">AED ${tot}</span></div>
+        <button class="ai-add-all" id="aiaddall-${idx}" onclick="aiAddPlan(${idx},this)">Add All to Cart — AED ${tot}</button>
+      </div>` : "";
+
+    const followBlock = followUp ? `<p class="ai-followup">${followUp}</p>` : "";
+    const chipsBlock = suggestions.length ? `<div class="ai-sugg">${suggestions.map(chip).join('')}</div>` : "";
+
+    showTyping(false); aiBusy = false;
+    addMsg("ai", `<p>${reply}</p>${recipeBlock}${listBlock}${followBlock}${chipsBlock}`);
     refocusChat();
-  },1200+Math.random()*500);
+  } catch (err) {
+    console.error("Concierge error:", err);
+    showTyping(false); aiBusy = false;
+    addMsg("ai", `<p>Sorry, I encountered an error connecting to the AI concierge.</p>`);
+    refocusChat();
+  }
 }
 function aiAddOne(id){
   addOne(id);
@@ -1945,9 +2082,9 @@ function aiAddOne(id){
 function aiAddPlan(idx,btn){
   const rec=PLANS[idx];if(!rec||rec.added)return;
   rec.added=true;
-  /* Add everything silently in the background — NO cart popup, NO screen flash */
+  /* Add the currently-selected SKU + chosen quantity for each row */
   rec.plan.forEach(({p,qty})=>{cart[p.id]=stockCap(p.id,(cart[p.id]||0)+qty)});
-  renderProds();syncCartBadge();
+  renderProds();syncCartBadge();cartAdded();
   const n=rec.plan.reduce((a,x)=>a+x.qty,0);
   const tot=rec.plan.reduce((a,x)=>a+x.p.price*x.qty,0);
   if(btn){btn.disabled=true;btn.classList.add('added');btn.innerHTML='✓ Added to Cart'}
@@ -1955,7 +2092,7 @@ function aiAddPlan(idx,btn){
   addMsg('ai',`<div class="cf-card">
     <div class="cf-top">
       <span class="cf-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>
-      <div><div class="cf-t">${n} items added to your cart</div><div class="cf-s">Cart total AED ${tot} · ready when you are</div></div>
+      <div><div class="cf-t">${n} item${n>1?'s':''} added · AED ${tot}</div><div class="cf-s">Cart total AED ${cartTots().total} · ready when you are</div></div>
     </div>
     <div class="cf-btns">
       <button class="cf-btn" onclick="openCart()"><svg viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg>View Cart</button>
@@ -2003,25 +2140,109 @@ function showTyping(on){
 }
 function refocusChat(){setTimeout(()=>document.getElementById('chatInput')?.focus(),150)}
 
-/* ─── VOICE ─── */
+/* ─── VOICE (multilingual) ─── */
 let recog=null,listening=false;
-function toggleVoice(){
-  if(!('webkitSpeechRecognition' in window||'SpeechRecognition' in window)){showToast('Voice not supported here','');return}
-  if(listening){recog?.stop();return}
-  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
-  recog=new SR();recog.lang=({en:'en-US',hi:'hi-IN',ur:'ur-PK'})[LANG]||'en-US';recog.continuous=false;recog.interimResults=false;
-  recog.onstart=()=>{listening=true;document.getElementById('micBtn').classList.add('listening');showToast('Listening…','')};
-  recog.onresult=e=>{const t=e.results[0][0].transcript;document.getElementById('chatInput').value=t;sendChat(t)};
-  recog.onend=()=>{listening=false;document.getElementById('micBtn').classList.remove('listening')};
-  recog.onerror=()=>{listening=false;document.getElementById('micBtn').classList.remove('listening');showToast('Voice error — try again','')};
-  recog.start();
+/* Web Speech API can't auto-detect language, so the shopper picks their
+   speaking language here. The AI still REPLIES in whatever language it hears. */
+const MIC_LANGS=[
+  {code:'auto',label:'Auto-detect',short:'AUTO'},
+  {code:'en-US',label:'English',short:'EN'},
+  {code:'ar-SA',label:'العربية',short:'ع'},
+  {code:'hi-IN',label:'हिन्दी',short:'हि'},
+  {code:'ur-PK',label:'اردو',short:'اُ'},
+  {code:'ml-IN',label:'മലയാളം',short:'മ'},
+  {code:'ta-IN',label:'தமിழ്',short:'த'},
+  {code:'bn-IN',label:'বাংলা',short:'ব'},
+  {code:'fr-FR',label:'Français',short:'FR'},
+  {code:'tl-PH',label:'Filipino',short:'PH'},
+  {code:'es-ES',label:'Español',short:'ES'}
+];
+let MIC_LANG=localStorage.getItem('devx-mic-lang')||'auto';
+function micLangObj(){return MIC_LANGS.find(l=>l.code===MIC_LANG)||MIC_LANGS[0]}
+function buildMicLangMenu(){
+  const menu=document.getElementById('micLangMenu');if(!menu)return;
+  menu.innerHTML=MIC_LANGS.map(l=>`<button class="${l.code===MIC_LANG?'on':''}" onclick="setMicLang('${l.code}')">${l.label}</button>`).join('');
+  const code=document.getElementById('micLangCode');if(code)code.textContent=micLangObj().short;
+}
+function toggleMicLangMenu(e){
+  if(e)e.stopPropagation();
+  const menu=document.getElementById('micLangMenu');if(!menu)return;
+  menu.classList.toggle('on');
+}
+function setMicLang(code){
+  MIC_LANG=code;localStorage.setItem('devx-mic-lang',code);
+  buildMicLangMenu();
+  document.getElementById('micLangMenu').classList.remove('on');
+  showToast('Voice language: '+micLangObj().label,'green');
+}
+document.addEventListener('click',()=>{const m=document.getElementById('micLangMenu');if(m)m.classList.remove('on')});
+/* ─── VOICE via MediaRecorder + Whisper (reliable, auto-detects language) ───
+   Tap to start recording, tap again (or auto-stop) to transcribe on the server.
+   This avoids the browser's built-in speech API, which often fails with a
+   network error. Works in Chrome, Edge, Firefox and Safari. */
+let mediaRec=null, micStream=null, audioChunks=[], autoStopT=null;
+function stopVoice(){listening=false;const b=document.getElementById('micBtn');if(b)b.classList.remove('listening')}
+async function toggleVoice(){
+  if(listening){ // stop → triggers transcription in onstop
+    try{ if(mediaRec && mediaRec.state!=='inactive') mediaRec.stop(); }catch(e){}
+    return;
+  }
+  if(!navigator.mediaDevices || !window.MediaRecorder){
+    showToast('Voice not supported in this browser — try Chrome','');return;
+  }
+  try{
+    micStream = await navigator.mediaDevices.getUserMedia({audio:true});
+  }catch(e){
+    const denied = e && (e.name==='NotAllowedError'||e.name==='SecurityError');
+    showToast(denied ? 'Mic blocked — click the lock icon in the address bar and allow the microphone'
+                     : 'No microphone found — check it is connected','');
+    return;
+  }
+  audioChunks=[];
+  try{ mediaRec = new MediaRecorder(micStream); }
+  catch(e){ mediaRec = new MediaRecorder(micStream, {mimeType:'audio/webm'}); }
+  mediaRec.ondataavailable = e => { if(e.data && e.data.size) audioChunks.push(e.data); };
+  mediaRec.onstop = async () => {
+    clearTimeout(autoStopT);
+    stopVoice();
+    if(micStream){ micStream.getTracks().forEach(t=>t.stop()); micStream=null; }
+    const blob = new Blob(audioChunks, {type: (mediaRec && mediaRec.mimeType) || 'audio/webm'});
+    if(!blob.size){ return; }
+    showToast('Transcribing…','');
+    try{
+      const langHint = (MIC_LANG||'').slice(0,2); // en/hi/ml/ar/ta… ; 'au' => auto
+      const r = await fetch('/api/transcribe?lang='+encodeURIComponent(langHint), {method:'POST', headers:{'Content-Type':'audio/webm'}, body:blob});
+      const d = await r.json();
+      const text = (d.text||'').trim();
+      if(text){ const inp=document.getElementById('chatInput'); if(inp)inp.value=text; sendChat(text); }
+      else showToast("Didn't catch that — try again",'');
+    }catch(err){ showToast('Voice error — please type instead',''); }
+  };
+  try{
+    mediaRec.start();
+    listening=true;
+    const b=document.getElementById('micBtn'); if(b)b.classList.add('listening');
+    showToast('Listening… tap the mic again to send','');
+    autoStopT = setTimeout(()=>{ try{ if(mediaRec && mediaRec.state!=='inactive') mediaRec.stop(); }catch(e){} }, 12000); // safety auto-stop
+  }catch(e){ stopVoice(); showToast('Could not start recording',''); }
 }
 
 /* ─── TOAST ─── */
 function showToast(msg,type){
   const el=document.getElementById('toast');
+  el.onclick=null;el.style.cursor='';
   el.textContent=msg;el.className='toast-msg on'+(type?' '+type:'');
   clearTimeout(el._t);el._t=setTimeout(()=>el.classList.remove('on'),2400);
+}
+/* Clickable confirmation shown after adding to cart — tap to open the cart. */
+function cartAdded(){
+  const el=document.getElementById('toast');
+  const n=cartCnt(),t=cartTots().total;
+  el.innerHTML='✓ '+n+' in cart · AED '+t+'  —  tap to view';
+  el.className='toast-msg on green clickable';
+  el.style.cursor='pointer';
+  el.onclick=()=>{el.classList.remove('on');el.onclick=null;openCart();};
+  clearTimeout(el._t);el._t=setTimeout(()=>{el.classList.remove('on');el.onclick=null;},3400);
 }
 
 /* ══════════════════════════════════════
@@ -2111,6 +2332,7 @@ function applyLang(){
   initCanvas();
   syncNotifBadge();
   applyLang();
+  buildMicLangMenu();
   /* Deep link: opened by scanning the store-entrance QR → ?mode=store */
   if(new URLSearchParams(location.search).get('mode')==='store'){setStoreMode(true)}
 })();
