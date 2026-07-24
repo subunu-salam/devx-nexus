@@ -357,6 +357,42 @@ body{
 .ai-sugg-chip{padding:8px 13px;border-radius:var(--pill);border:1.5px solid var(--G);background:var(--GL);font-size:12px;font-weight:700;color:var(--GD);cursor:pointer;font-family:'Montserrat',sans-serif;transition:.15s}
 .ai-sugg-chip:active{background:var(--G);color:#fff;transform:scale(.97)}
 
+/* ── LOOSE / BY-WEIGHT ── */
+.loose-tag{display:inline-block;font-size:9px;font-weight:800;color:var(--GD);background:var(--GL);border:1px solid var(--GM);border-radius:6px;padding:1px 5px;letter-spacing:.02em;vertical-align:middle}
+.ai-cust-btn{padding:6px 11px;border-radius:8px;background:var(--GL);border:1.5px solid var(--G);color:var(--GD);font-size:11px;font-weight:800;cursor:pointer;font-family:'Montserrat',sans-serif;white-space:nowrap;transition:.15s}
+.ai-cust-btn:active{background:var(--G);color:#fff;transform:scale(.96)}
+.ai-pcard.loose{border-color:var(--GM)}
+.p-perkg{font-size:10px;font-weight:700;color:var(--tx3);margin-left:1px}
+.p-cust{padding:6px 10px;border-radius:9px;background:var(--G);border:none;color:#fff;font-size:11px;font-weight:800;cursor:pointer;font-family:'Montserrat',sans-serif;box-shadow:0 2px 8px rgba(61,187,106,.35);white-space:nowrap;transition:.15s}
+.p-cust.in{background:var(--GL);color:var(--GD);border:1.5px solid var(--G);box-shadow:none}
+.p-cust:active{transform:scale(.95)}
+.ci-cust{padding:6px 11px;border-radius:8px;background:var(--GL);border:1.5px solid var(--G);color:var(--GD);font-size:11px;font-weight:800;cursor:pointer;font-family:'Montserrat',sans-serif;white-space:nowrap}
+.ci-cust:active{background:var(--G);color:#fff}
+.ck-cust{padding:5px 10px;border-radius:8px;background:var(--GL);border:1.5px solid var(--G);color:var(--GD);font-size:11px;font-weight:800;cursor:pointer;font-family:'Montserrat',sans-serif;margin-right:8px;white-space:nowrap}
+.ck-cust:active{background:var(--G);color:#fff}
+/* Loose modal */
+.loose-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);backdrop-filter:blur(2px);z-index:500;display:none;align-items:flex-end;justify-content:center}
+.loose-overlay.on{display:flex}
+.loose-modal{background:var(--card);width:100%;max-width:440px;border-radius:20px 20px 0 0;padding:18px 18px calc(18px + env(safe-area-inset-bottom,0px));box-shadow:0 -8px 40px rgba(0,0,0,.25);animation:lmUp .22s ease}
+@keyframes lmUp{from{transform:translateY(30px);opacity:.6}to{transform:translateY(0);opacity:1}}
+.lm-head{display:flex;align-items:center;gap:11px;margin-bottom:14px}
+.lm-img{width:48px;height:48px;border-radius:11px;object-fit:cover;background:var(--bg);border:1px solid var(--bdr)}
+.lm-name{font-size:15px;font-weight:800;color:var(--tx);letter-spacing:-.01em}
+.lm-per{font-size:12px;font-weight:700;color:var(--GD);margin-top:1px}
+.lm-x{margin-left:auto;width:30px;height:30px;border-radius:50%;border:none;background:var(--bg);color:var(--tx3);font-size:18px;cursor:pointer;line-height:1}
+.lm-lbl{font-size:10px;font-weight:800;color:var(--tx3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px}
+.lm-presets{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:13px}
+.lm-presets button{padding:9px 14px;border-radius:10px;border:1.5px solid var(--bdr);background:var(--bg);font-size:13px;font-weight:700;color:var(--tx2);cursor:pointer;font-family:'Montserrat',sans-serif;transition:.15s}
+.lm-presets button.on{border-color:var(--G);background:var(--GL);color:var(--GD)}
+.lm-row{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.lm-field{display:flex;align-items:center;gap:6px;background:var(--bg);border:1.5px solid var(--bdr);border-radius:11px;padding:10px 13px;flex:1}
+.lm-field input{border:none;background:transparent;font-size:18px;font-weight:800;color:var(--tx);width:100%;outline:none;font-family:'Montserrat',sans-serif}
+.lm-field span{font-size:12px;font-weight:700;color:var(--tx3)}
+.lm-total{font-size:13px;font-weight:600;color:var(--tx2);white-space:nowrap}
+.lm-total strong{display:block;font-size:19px;font-weight:900;color:var(--tx);letter-spacing:-.02em}
+.lm-add{width:100%;padding:14px;border-radius:12px;background:var(--G);color:#fff;border:none;font-size:14px;font-weight:800;cursor:pointer;font-family:'Montserrat',sans-serif;box-shadow:0 3px 14px rgba(61,187,106,.4)}
+.lm-add:active{background:var(--GD);transform:scale(.99)}
+
 /* Cart summary in AI */
 .ai-cart-sum{
   margin-top:10px;background:linear-gradient(135deg,var(--BK) 0%,#1E2A1E 100%);
@@ -1037,6 +1073,24 @@ body{
   </div>
 </div>
 
+<!-- LOOSE / BY-WEIGHT CUSTOMISE MODAL -->
+<div class="loose-overlay" id="looseOverlay" onclick="if(event.target===this)closeLoose()">
+  <div class="loose-modal">
+    <div class="lm-head">
+      <img id="lmImg" class="lm-img" alt="">
+      <div><div class="lm-name" id="lmName"></div><div class="lm-per" id="lmPer"></div></div>
+      <button class="lm-x" onclick="closeLoose()">×</button>
+    </div>
+    <div class="lm-lbl">Choose your weight</div>
+    <div class="lm-presets" id="lmPresets"></div>
+    <div class="lm-row">
+      <div class="lm-field"><input type="number" id="lmGrams" min="50" step="50" inputmode="numeric" oninput="lmOnInput(this.value)"><span>grams</span></div>
+      <div class="lm-total">Total <strong id="lmTotal">AED 0</strong></div>
+    </div>
+    <button class="lm-add" id="lmAdd" onclick="lmConfirm()">Add to Cart</button>
+  </div>
+</div>
+
 <div class="toast-msg" id="toast"></div>
 
 <script>
@@ -1215,7 +1269,10 @@ function initData(){
 function reloadCatalog(){DB=nxRead(NXK.cat,DB);CATS=[...new Set(DB.map(p=>p.cat))]}
 
 let cart={};
+let looseCart={};   /* id -> grams, for by-weight (loose) products */
 let favs={};
+function isLoose(id){const p=DB.find(x=>x.id==id);return p&&p.loose}
+function loosePrice(p,grams){const per=p.perKg!=null?p.perKg:p.price;return Math.round(per*grams/1000*100)/100}
 let curCat='all';
 let aiBusy=false;
 let lastOrder=null;
@@ -1350,18 +1407,22 @@ function pCardHTML(p){
     <div class="p-body">
       <div class="p-cat-l">${p.cat}</div>
       <div class="p-name">${p.name}</div>
-      <div class="p-unit">${p.unit}${p.brand?` · <b style='color:var(--GD)'>`+p.brand+'</b>':''}</div>
+      <div class="p-unit">${p.loose?`Sold loose <span class="loose-tag">⚖ by weight</span>`:(p.unit+(p.brand?` · <b style='color:var(--GD)'>`+p.brand+'</b>':''))}</div>
       <button class="p-locpill" onclick="openLocator(${p.id})">
         <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>${shortLoc}
       </button>
-      <div class="p-bot">
+      ${p.loose?`<div class="p-bot">
+        <div><span class="p-price">AED ${p.perKg!=null?p.perKg:p.price}</span><span class="p-perkg">/kg</span></div>
+        ${looseCart[p.id]?`<button class="p-cust in" onclick="openLoose(${p.id},{grams:${looseCart[p.id]},confirmLabel:'Update',onConfirm:g=>{looseCart[${p.id}]=g;renderProds();syncCartBadge();renderCartSheet();}})">${looseCart[p.id]>=1000?(looseCart[p.id]/1000)+'kg':looseCart[p.id]+'g'} · Edit</button>`
+          :`<button class="p-cust" onclick="openLoose(${p.id})">Customise</button>`}
+      </div>`:`<div class="p-bot">
         <div>${p.was?`<span class="p-old">AED ${p.was}</span>`:''}
         <span class="p-price">AED ${p.price}</span></div>
         ${out?''
           :q>0
           ?`<div class="p-qty"><button class="p-qty-b" onclick="chQty(${p.id},-1)">−</button><span class="p-qty-n">${q}</span><button class="p-qty-b" onclick="chQty(${p.id},1)">+</button></div>`
           :`<button class="p-add" onclick="addOne(${p.id})"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button>`}
-      </div>
+      </div>`}
     </div>
   </div>`;
 }
@@ -1396,11 +1457,49 @@ function chQty(id,d){
   if(d>0){const p=DB.find(x=>x.id===id);if(p&&p.stock!=null&&(cart[id]||0)>=p.stock){showToast('Only '+p.stock+' available','');return}}
   cart[id]=(cart[id]||0)+d;if(cart[id]<=0)delete cart[id];renderProds();syncCartBadge();renderCartSheet();
 }
-function delItem(id){delete cart[id];renderProds();syncCartBadge();renderCartSheet();showToast('Removed from cart','')}
+function delItem(id){delete cart[id];delete looseCart[id];renderProds();syncCartBadge();renderCartSheet();showToast('Removed from cart','')}
 function addMany(ids){ids.forEach(id=>cart[id]=stockCap(id,(cart[id]||0)+1));renderProds();syncCartBadge()}
-function cartArr(){return Object.entries(cart).map(([id,q])=>({...DB.find(p=>p.id==id),qty:q})).filter(x=>x.name)}
-function cartTots(){let s=0,sv=0;cartArr().forEach(i=>{s+=i.price*i.qty;if(i.was)sv+=(i.was-i.price)*i.qty});return{sub:s,save:sv,total:s}}
-function cartCnt(){return Object.values(cart).reduce((a,b)=>a+b,0)}
+/* Loose items carry a grams weight and a line price computed from perKg. */
+function cartArr(){
+  const packed=Object.entries(cart).map(([id,q])=>({...DB.find(p=>p.id==id),qty:q})).filter(x=>x.name);
+  const loose=Object.entries(looseCart).map(([id,g])=>{const p=DB.find(x=>x.id==id);if(!p)return null;return {...p,loose:true,grams:g,qty:1,price:loosePrice(p,g)}}).filter(Boolean);
+  return [...packed,...loose];
+}
+function cartTots(){let s=0,sv=0;cartArr().forEach(i=>{s+=i.price*i.qty;if(i.was&&!i.loose)sv+=(i.was-i.price)*i.qty});return{sub:Math.round(s*100)/100,save:sv,total:Math.round(s*100)/100}}
+function cartCnt(){return Object.values(cart).reduce((a,b)=>a+b,0)+Object.keys(looseCart).length}
+/* ─── LOOSE CUSTOMISE MODAL ─── */
+let LM={id:null,grams:500,onConfirm:null};
+function openLoose(id,opts){
+  const p=DB.find(x=>x.id==id);if(!p)return;
+  opts=opts||{};
+  LM.id=id; LM.grams=opts.grams||500; LM.onConfirm=opts.onConfirm||null;
+  const per=p.perKg!=null?p.perKg:p.price;
+  const im=document.getElementById('lmImg');im.src=p.img||FALLBACK_IMG;im.onerror=function(){this.src=FALLBACK_IMG};
+  document.getElementById('lmName').textContent=p.name;
+  document.getElementById('lmPer').textContent='AED '+per+' / kg';
+  document.getElementById('lmAdd').textContent=opts.confirmLabel||'Add to Cart';
+  document.getElementById('lmPresets').innerHTML=[100,250,500,1000,2000].map(g=>`<button data-g="${g}" onclick="lmSet(${g})">${g>=1000?(g/1000)+' kg':g+' g'}</button>`).join('');
+  document.getElementById('lmGrams').value=LM.grams;
+  lmRender();
+  document.getElementById('looseOverlay').classList.add('on');
+  setTimeout(()=>document.getElementById('lmGrams').focus(),150);
+}
+function closeLoose(){document.getElementById('looseOverlay').classList.remove('on')}
+function lmSet(g){LM.grams=g;document.getElementById('lmGrams').value=g;lmRender()}
+function lmOnInput(v){let g=parseInt(v,10);if(isNaN(g))g=0;LM.grams=g;lmRender()}
+function lmRender(){
+  const p=DB.find(x=>x.id==LM.id);if(!p)return;
+  const per=p.perKg!=null?p.perKg:p.price;
+  const g=Math.max(0,LM.grams||0);
+  document.getElementById('lmTotal').textContent='AED '+(Math.round(per*g/1000*100)/100);
+  document.querySelectorAll('#lmPresets button').forEach(b=>b.classList.toggle('on',+b.dataset.g===g));
+}
+function lmConfirm(){
+  const g=Math.max(50,LM.grams||0);
+  if(LM.onConfirm){LM.onConfirm(g);}
+  else{looseCart[LM.id]=g;renderProds();syncCartBadge();cartAdded();}
+  closeLoose();
+}
 function syncCartBadge(){
   const n=cartCnt(),b=document.getElementById('cartBadge');
   b.textContent=n||'';
@@ -1609,20 +1708,23 @@ function renderCartSheet(){
   document.getElementById('ctTotal').textContent='AED '+t.total;
   const sr=document.getElementById('ctSaveRow');
   t.save>0?(document.getElementById('ctSave').textContent='AED '+t.save,sr.style.display='flex'):sr.style.display='none';
-  list.innerHTML=items.map(i=>`<div class="ci">
+  list.innerHTML=items.map(i=>{
+    const per=i.perKg!=null?i.perKg:i.price;
+    const delBtn=`<button class="ci-del" onclick="delItem(${i.id})"><svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a1 1 0 011-1h4a1 1 0 011 1v2"/></svg></button>`;
+    const ctrl=i.loose
+      ?`<div class="ci-ctrl"><button class="ci-cust" onclick="openLoose(${i.id},{grams:${i.grams},confirmLabel:'Update',onConfirm:g=>{looseCart[${i.id}]=g;renderCartSheet();syncCartBadge();}})">⚖ ${i.grams>=1000?(i.grams/1000)+'kg':i.grams+'g'} · Customise</button>${delBtn}</div>`
+      :`<div class="ci-ctrl"><div class="ci-qty"><button onclick="chQty(${i.id},-1)">−</button><span>${i.qty}</span><button onclick="chQty(${i.id},1)">+</button></div>${delBtn}</div>`;
+    return `<div class="ci">
     <img class="ci-img" src="${i.img}" alt="${i.name}" onerror="this.src='https://images.unsplash.com/photo-1542838132-92c53300491e?w=120&h=120&fit=crop'">
     <div class="ci-info">
-      <div class="ci-name">${i.name}</div>
-      <div class="ci-loc" onclick="openLocator(${i.id})" title="Find in store">📍 ${i.loc}</div>
+      <div class="ci-name">${i.name}${i.loose?` <span class="loose-tag">⚖ ${i.grams>=1000?(i.grams/1000)+'kg':i.grams+'g'}</span>`:''}</div>
+      <div class="ci-loc" onclick="openLocator(${i.id})" title="Find in store">📍 ${i.loc}${i.loose?` · AED ${per}/kg`:''}</div>
       <div class="ci-bot">
-        <div class="ci-price">AED ${i.price*i.qty}</div>
-        <div class="ci-ctrl">
-          <div class="ci-qty"><button onclick="chQty(${i.id},-1)">−</button><span>${i.qty}</span><button onclick="chQty(${i.id},1)">+</button></div>
-          <button class="ci-del" onclick="delItem(${i.id})"><svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a1 1 0 011-1h4a1 1 0 011 1v2"/></svg></button>
-        </div>
+        <div class="ci-price">AED ${i.loose?i.price:(i.price*i.qty)}</div>
+        ${ctrl}
       </div>
     </div>
-  </div>`).join('');
+  </div>`;}).join('');
 }
 
 /* ─── CHECKOUT ─── */
@@ -1688,7 +1790,7 @@ function renderCk(){
     <div class="ck-field"><label class="ck-lbl">Phone Number</label><input class="ck-inp" id="ckPhone" type="tel" placeholder="+971 50 XXX XXXX"></div>
     ${ckMode==='pickup'?`<div class="ck-field"><label class="ck-lbl">Select Branch</label><select class="ck-sel" id="ckBranch"><option>Madina Supermarket — Deira (Branch 3)</option><option>Madina Supermarket — Al Nahda (Branch 1)</option><option>Madina Supermarket — Sharjah (Branch 7)</option></select></div>${buildMap(items)}`:''}
     ${ckMode==='delivery'?`<div class="ck-field"><label class="ck-lbl">Delivery Address</label><input class="ck-inp" id="ckAddr" placeholder="Building, Street, Area, Dubai"></div><div class="ck-field"><label class="ck-lbl">Delivery Time</label><select class="ck-sel" id="ckTime"><option>Within 60 minutes</option><option>Today 2–4 PM</option><option>Today 6–8 PM</option><option>Tomorrow Morning</option></select></div>`:''}
-    <div class="ck-items">${items.map(i=>`<div class="ck-item"><img class="ck-iimg" src="${i.img}" alt="${i.name}" onerror="this.src='https://images.unsplash.com/photo-1542838132-92c53300491e?w=68&h=68&fit=crop'"><div style="flex:1;min-width:0"><div class="ck-iname">${i.name} ×${i.qty}</div><div class="ck-isub">${ckMode==='pickup'?i.loc:i.unit}</div></div><div class="ck-iprice">AED ${i.price*i.qty}</div></div>`).join('')}</div>
+    <div class="ck-items">${items.map(i=>{const wl=i.grams>=1000?(i.grams/1000)+'kg':i.grams+'g';return `<div class="ck-item"><img class="ck-iimg" src="${i.img}" alt="${i.name}" onerror="this.src='https://images.unsplash.com/photo-1542838132-92c53300491e?w=68&h=68&fit=crop'"><div style="flex:1;min-width:0"><div class="ck-iname">${i.name}${i.loose?` · ${wl}`:` ×${i.qty}`}</div><div class="ck-isub">${ckMode==='pickup'?i.loc:(i.loose?('AED '+(i.perKg!=null?i.perKg:i.price)+'/kg'):i.unit)}</div></div>${i.loose?`<button class="ck-cust" onclick="openLoose(${i.id},{grams:${i.grams},confirmLabel:'Update',onConfirm:g=>{looseCart[${i.id}]=g;renderCk();syncCartBadge();}})">Edit</button>`:''}<div class="ck-iprice">AED ${i.loose?i.price:(i.price*i.qty)}</div></div>`}).join('')}</div>
     <div class="ck-totals"><div class="ckt-row"><span>Subtotal</span><span>AED ${t.sub}</span></div>${t.save>0?`<div class="ckt-row save"><span>You save</span><span>AED ${t.save}</span></div>`:''}${ckMode==='delivery'?'<div class="ckt-row"><span>Delivery fee</span><span>AED 10</span></div>':''}<div class="ckt-row total"><span>Total</span><span>AED ${t.total+(ckMode==='delivery'?10:0)}</span></div></div>
     <button class="ck-confirm" onclick="placeOrder()" style="display:flex;align-items:center;justify-content:center;gap:9px">
       <svg viewBox="0 0 24 24" style="width:17px;height:17px;stroke:#fff;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round">${ckMode==='delivery'?'<rect x="1" y="3" width="15" height="13" rx="2"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/>':'<path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>'}</svg>
@@ -1705,7 +1807,7 @@ async function placeOrder(){
   let order={
     cid:CID,date:new Date().toISOString(),mode:ckMode,branch,
     customer:{name,phone,addr,slot},
-    items:items.map(i=>({id:i.id,name:i.name,qty:i.qty,price:i.price,loc:i.loc,unit:i.unit})),
+    items:items.map(i=>i.loose?({id:i.id,name:i.name,qty:1,loose:true,grams:i.grams,price:i.price,loc:i.loc,unit:i.unit}):({id:i.id,name:i.name,qty:i.qty,price:i.price,loc:i.loc,unit:i.unit})),
     sub:t.sub,save:t.save,fee:ckMode==='delivery'?10:0,
     total:t.total+(ckMode==='delivery'?10:0),
     status:'new',history:[{s:'new',at:new Date().toISOString()}]
@@ -1775,7 +1877,7 @@ function showOrderDone(ordId,items,t){
       <div class="order-id">${ordId}</div>
       <p style="font-size:11px;color:var(--tx3)">This order is now live in the DevX Nexus dashboard — Orders module.</p>
       <div style="height:14px"></div>
-      <button class="order-cont" onclick="cart={};syncCartBadge();closeCk();renderProds()">Continue Shopping</button>
+      <button class="order-cont" onclick="cart={};looseCart={};syncCartBadge();closeCk();renderProds()">Continue Shopping</button>
     </div>`;
   }else{
     const o=lastOrder;
@@ -1786,7 +1888,7 @@ function showOrderDone(ordId,items,t){
       ${passHTML(ordId,o)}
       <div style="height:8px"></div>
       ${buildMap(items)}
-      <button class="order-cont" onclick="cart={};syncCartBadge();closeCk();renderProds()">Continue Shopping</button>
+      <button class="order-cont" onclick="cart={};looseCart={};syncCartBadge();closeCk();renderProds()">Continue Shopping</button>
       <div style="height:10px"></div>
     </div>`;
     renderPassQR('pkQR-'+ordId,passPayload(o||{id:ordId}));
@@ -1939,6 +2041,7 @@ let PLANS=[];
 const FALLBACK_IMG="https://images.unsplash.com/photo-1542838132-92c53300491e?w=92&h=92&fit=crop";
 /* One interactive card per plan row. Supports: quantity stepper,
    brand/size badge, and an "other options" swap within the same group. */
+function rowLine(r){return r.p.loose?loosePrice(r.p,r.grams||500):r.p.price*r.qty}
 function planCards(pidx){
   const rows=PLANS[pidx].plan;
   return rows.map((row,i)=>{
@@ -1946,11 +2049,28 @@ function planCards(pidx){
     const alts=row.alternatives||[];
     const altBlock=alts.length?`
       <div class="ai-alt-wrap">
-        <button class="ai-alt-toggle" onclick="aiToggleAlt(${pidx},${i})">▾ ${alts.length} other brand${alts.length>1?'s':''}/size${alts.length>1?'s':''}</button>
+        <button class="ai-alt-toggle" onclick="aiToggleAlt(${pidx},${i})">▾ ${alts.length} other ${p.loose?'option':'brand'}${alts.length>1?'s':''}${p.loose?'':'/sizes'}</button>
         <div class="ai-alt-list" id="aialt-${pidx}-${i}" style="display:none">
-          ${alts.map(a=>`<button class="ai-alt-chip" onclick="aiSwap(${pidx},${i},${a.id})">${a.brand?a.brand+' · ':''}${a.unit} — AED ${a.price}</button>`).join('')}
+          ${alts.map(a=>`<button class="ai-alt-chip" onclick="aiSwap(${pidx},${i},${a.id})">${a.brand&&a.brand!=='Loose'?a.brand+' · ':''}${a.loose?('AED '+(a.perKg!=null?a.perKg:a.price)+'/kg'):(a.unit+' — AED '+a.price)}</button>`).join('')}
         </div>
       </div>`:'';
+    if(p.loose){
+      const per=p.perKg!=null?p.perKg:p.price;const g=row.grams||500;
+      return `<div class="ai-pcard loose" id="aicard-${pidx}-${i}">
+        <div class="ai-pcard-main">
+          <img class="ai-pimg" src="${p.img||FALLBACK_IMG}" alt="${p.name}" loading="lazy" decoding="async" onerror="this.src='${FALLBACK_IMG}'">
+          <div class="ai-pdet">
+            <div class="ai-pname">${p.name}</div>
+            <div class="ai-punit">AED ${per} / kg <span class="loose-tag">⚖ loose</span></div>
+          </div>
+          <div class="ai-pright">
+            <div class="ai-pprice" id="aiprice-${pidx}-${i}">AED ${loosePrice(p,g)}</div>
+            <button class="ai-cust-btn" onclick="aiCustomise(${pidx},${i})">⚖ ${g>=1000?(g/1000)+'kg':g+'g'} · Edit</button>
+          </div>
+        </div>
+        ${altBlock}
+      </div>`;
+    }
     return `<div class="ai-pcard" id="aicard-${pidx}-${i}">
       <div class="ai-pcard-main">
         <img class="ai-pimg" src="${p.img||FALLBACK_IMG}" alt="${p.name}" loading="lazy" decoding="async" onerror="this.src='${FALLBACK_IMG}'">
@@ -1971,6 +2091,14 @@ function planCards(pidx){
       ${altBlock}
     </div>`;
   }).join('');
+}
+function aiCustomise(pidx,i){
+  const row=PLANS[pidx].plan[i];if(!row)return;
+  openLoose(row.p.id,{grams:row.grams||500,confirmLabel:'Set weight',onConfirm:g=>{
+    row.grams=g;
+    const list=document.getElementById(`aiplist-${pidx}`);if(list)list.innerHTML=planCards(pidx);
+    aiRefreshTotal(pidx);
+  }});
 }
 function aiQty(pidx,i,d){
   const row=PLANS[pidx].plan[i];if(!row)return;
@@ -1997,7 +2125,7 @@ function aiSwap(pidx,i,altId){
 }
 function aiRefreshTotal(pidx){
   const rows=PLANS[pidx].plan;
-  const tot=rows.reduce((s,r)=>s+r.p.price*r.qty,0);
+  const tot=Math.round(rows.reduce((s,r)=>s+rowLine(r),0)*100)/100;
   const el=document.getElementById(`aitot-${pidx}`);if(el)el.textContent='AED '+tot;
   const btn=document.getElementById(`aiaddall-${pidx}`);if(btn&&!PLANS[pidx].added)btn.innerHTML='Add All to Cart — AED '+tot;
 }
@@ -2032,8 +2160,8 @@ async function sendChat(preset){
     const recipe = data.recipe || null;
     const followUp = data.follow_up || "";
     const suggestions = Array.isArray(data.suggestions) ? data.suggestions : [];
-    const plan = (data.plan || []).map(r => ({ p: r.p, qty: r.qty || 1, alternatives: r.alternatives || [] }));
-    const tot = data.total != null ? data.total : plan.reduce((s, r) => s + r.p.price * r.qty, 0);
+    const plan = (data.plan || []).map(r => ({ p: r.p, qty: r.qty || 1, grams: (r.p && r.p.loose) ? 500 : undefined, alternatives: r.alternatives || [] }));
+    const tot = Math.round(plan.reduce((s, r) => s + rowLine(r), 0) * 100) / 100;
 
     const chip = s => `<button class="ai-sugg-chip" onclick="sendChat(${JSON.stringify(s).replace(/"/g,'&quot;')})">${s}</button>`;
 
@@ -2082,11 +2210,14 @@ function aiAddOne(id){
 function aiAddPlan(idx,btn){
   const rec=PLANS[idx];if(!rec||rec.added)return;
   rec.added=true;
-  /* Add the currently-selected SKU + chosen quantity for each row */
-  rec.plan.forEach(({p,qty})=>{cart[p.id]=stockCap(p.id,(cart[p.id]||0)+qty)});
+  /* Add each row: loose items by weight (grams), packed items by count */
+  rec.plan.forEach(r=>{
+    if(r.p.loose){looseCart[r.p.id]=r.grams||500;}
+    else{cart[r.p.id]=stockCap(r.p.id,(cart[r.p.id]||0)+r.qty);}
+  });
   renderProds();syncCartBadge();cartAdded();
-  const n=rec.plan.reduce((a,x)=>a+x.qty,0);
-  const tot=rec.plan.reduce((a,x)=>a+x.p.price*x.qty,0);
+  const n=rec.plan.length;
+  const tot=Math.round(rec.plan.reduce((a,r)=>a+rowLine(r),0)*100)/100;
   if(btn){btn.disabled=true;btn.classList.add('added');btn.innerHTML='✓ Added to Cart'}
   /* Inline confirmation card inside the chat — the user never leaves this screen */
   addMsg('ai',`<div class="cf-card">

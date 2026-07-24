@@ -330,7 +330,8 @@ function compact(p) {
     id: p.id, name: p.name, brand: p.brand || null, unit: p.unit,
     price: p.price, was: p.was || null, cat: p.cat, img: p.img || null,
     loc: p.loc || null, stock: p.stock != null ? p.stock : null,
-    group: p.group || null, deal: !!p.deal
+    group: p.group || null, deal: !!p.deal,
+    loose: !!p.loose, perKg: p.perKg != null ? p.perKg : null
   };
 }
 
@@ -684,14 +685,25 @@ app.post('/api/orders', (req, res) => {
   for (const it of o.items) {
     const p = cat.find(x => x.id === it.id);
     if (!p) return res.status(400).json({ error: 'unknown product ' + it.id });
-    if (p.stock != null && p.stock < it.qty) return res.status(409).json({ error: p.name + ': only ' + p.stock + ' left' });
-    it.price = p.price; it.name = p.name; it.loc = p.loc; it.unit = p.unit;
-    sub += p.price * it.qty;
+    if (p.loose || it.loose) {
+      // Loose item: priced by weight. grams -> line = perKg * grams/1000.
+      const grams = Math.max(1, parseInt(it.grams, 10) || 1000);
+      const perKg = p.perKg != null ? p.perKg : p.price;
+      it.loose = true; it.grams = grams; it.perKg = perKg;
+      it.name = p.name; it.loc = p.loc; it.unit = (grams >= 1000 ? (grams / 1000) + ' kg' : grams + ' g');
+      it.price = Math.round(perKg * grams / 1000 * 100) / 100;   // line price
+      it.qty = 1;
+      sub += it.price;
+    } else {
+      if (p.stock != null && p.stock < it.qty) return res.status(409).json({ error: p.name + ': only ' + p.stock + ' left' });
+      it.price = p.price; it.name = p.name; it.loc = p.loc; it.unit = p.unit;
+      sub += p.price * it.qty;
+    }
   }
   o.sub = Math.round(sub * 100) / 100;
   o.fee = o.mode === 'delivery' ? 10 : 0;
   o.total = Math.round((o.sub + o.fee) * 100) / 100;
-  o.items.forEach(it => { const p = cat.find(x => x.id === it.id); if (p.stock != null) p.stock = Math.max(0, p.stock - it.qty); });
+  o.items.forEach(it => { const p = cat.find(x => x.id === it.id); if (p && !it.loose && p.stock != null) p.stock = Math.max(0, p.stock - it.qty); });
 
   db['devx-orders'].unshift(o);
   activity('order', `New ${o.mode} order ${o.id} — ${(o.customer && o.customer.name) || 'Guest'} — AED ${o.total}`);
